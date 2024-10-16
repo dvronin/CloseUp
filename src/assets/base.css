@@ -1,0 +1,33 @@
+:root {
+  --color-main: #eeeeee;
+  --color-text: #111111;
+  --color-accent: #118bfe;
+  --color-border: #808080;
+}
+
+
+@media (prefers-color-scheme: dark) {
+  body, canvas {
+    filter: invert(1);
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  font-weight: normal;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  color: var(--color-text);
+  background: var(--color-main);
+  text-rendering: optimizeLegibility;
+}
