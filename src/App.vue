@@ -5,12 +5,16 @@
   <main>
     <aside class="element">
       <Sidebar direction="right">
-        <TreeView v-if="model != null" :model="model" />
+        <Resizer direction="right">
+          <TreeView v-if="model != null" :model="model" />
+        </Resizer>
       </Sidebar>
     </aside>
     <Viewer />
     <div class="element">
-      <Sidebar direction="left">HAHAHHAHA</Sidebar>
+      <Resizer direction="left">
+        <Sidebar direction="left">HAHAHHAHA</Sidebar>
+      </Resizer>
     </div>
   </main>
   <footer class="element">footer</footer>
@@ -24,6 +28,7 @@ import TreeView from './components/treeview/TreeView.vue';
 import { instance } from './instance/instance';
 import { onMounted, ref } from 'vue';
 import type { Object3D } from 'three';
+import Resizer from './components/shared/Resizer.vue';
 
 const model = ref<Object3D | null>(null);
 
@@ -53,5 +58,6 @@ aside {
   overflow-y: auto;
   overflow-x: hidden;
   max-width: 25%;
+  flex: auto 0 0;
 }
 </style>
