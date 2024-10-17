@@ -1,7 +1,7 @@
 <template>
     <details v-if="model.name.length != 0" class="tree-item">
         <summary>
-            <div class="name">{{ model.name }}</div>
+            <div class="name" @click="Select(model)">{{ model.name }}</div>
             <input type="checkbox" v-model="model.visible"
                 @change="instance.viewer?.SetVisibility(model, model.visible)">
         </summary>
@@ -19,6 +19,14 @@ import { Object3D } from 'three';
 const props = defineProps<{
     model: Object3D
 }>();
+
+function Select(model: Object3D) {
+    instance.viewer?.selectionManager.HideSelected();
+    instance.viewer?.selectionManager.Select(model);
+    instance.viewer?.selectionManager.ShowSelected();
+
+    instance.viewer?.appearance.Render();
+}
 
 </script>
 

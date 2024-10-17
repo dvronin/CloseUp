@@ -16,7 +16,7 @@ import { ref } from 'vue';
 const open = ref(false);
 
 const props = defineProps<{
-    direction?: "up" | "down" | "left" | "right"
+    direction?: "up" | "down" | "left" | "right",
 }>();
 
 function setDirection(): string {
@@ -40,6 +40,7 @@ function setDirection(): string {
 <style scoped>
 .expander {
     display: flex;
+    height: 100%;
 }
 
 .expand-button {
