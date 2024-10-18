@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@types/three": "^0.169.0",
-    "cad-model-viewer": "file:../Viewer",
+    "m3dv": "file:../Viewer",
     "three": "^0.169.0",
     "vue": "^3.5.12"
   },
