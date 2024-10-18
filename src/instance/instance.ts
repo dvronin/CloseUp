@@ -1,4 +1,4 @@
-import { Viewer } from "cad-model-viewer/dist/Viewer";
+import { Viewer } from "m3dv";
 
 export const instance: {
     viewer: Viewer | null
