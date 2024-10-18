@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 import { instance } from '@/instance/instance';
-import { Viewer } from 'cad-model-viewer/dist/Viewer';
+import { Viewer } from 'm3dv';
 import { onMounted, ref, type Ref } from 'vue';
 
 const occtImportJsWasmPath: string = "";
