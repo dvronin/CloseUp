@@ -7,7 +7,10 @@
 
 
 @media (prefers-color-scheme: dark) {
-  body, canvas {
+
+  body,
+  canvas,
+  .no-filter {
     filter: invert(1);
   }
 }

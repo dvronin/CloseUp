@@ -84,6 +84,7 @@ function onMouseUp(event: MouseEvent) {
 
 .separator {
     background-color: var(--color-border);
+    user-select: none;
 }
 
 .down {

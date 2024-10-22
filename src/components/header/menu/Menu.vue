@@ -1,11 +1,12 @@
 <template>
     <div>
-        <input type="file" @change="onFileLoad($event)">
+        <BtnInputFile text="Load" :fileInput="onFileLoad">Load</BtnInputFile>
     </div>
 </template>
 
 <script setup lang="ts">
 import { instance } from '@/instance/instance';
+import BtnInputFile from '@/components/shared/BtnInputFile.vue';
 
 
 
