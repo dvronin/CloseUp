@@ -12,9 +12,11 @@
     </aside>
     <Viewer />
     <div class="element">
-      <Resizer direction="left">
-        <Sidebar direction="left">HAHAHHAHA</Sidebar>
-      </Resizer>
+      <Sidebar direction="left">
+        <Resizer direction="left">
+          <Settings />
+        </Resizer>
+      </Sidebar>
     </div>
   </main>
   <footer class="element">footer</footer>
@@ -29,6 +31,9 @@ import { instance } from './instance/instance';
 import { onMounted, ref } from 'vue';
 import type { Object3D } from 'three';
 import Resizer from './components/shared/Resizer.vue';
+import TabControl from './components/shared/TabControl.vue';
+import TabItem from './components/shared/TabItem.vue';
+import Settings from './components/settings/Settings.vue';
 
 const model = ref<Object3D | null>(null);
 
