@@ -24,11 +24,18 @@ const activeTabIndex = ref(0);
 
 onMounted(() => {
     tabs.value = [...content.value!.querySelectorAll(".tab") as any];
-    ChangeActiveTab(activeTabIndex.value);
+    ChangeActiveTab(0);
 });
 
 function ChangeActiveTab(index: number) {
     const activeClassName = "active";
+
+    if (index == activeTabIndex.value) {
+        tabs.value[index].classList.add(activeClassName);
+        activeTabIndex.value = index;
+        return;
+    }
+    
     if (headers.value.length != 0) {
         if (headers.value[activeTabIndex.value].classList.contains(activeClassName)) {
             headers.value[activeTabIndex.value].classList.remove(activeClassName)

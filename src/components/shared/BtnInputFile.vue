@@ -2,7 +2,7 @@
     <button>
         <label>
             <slot></slot>
-            <input type="file" @change="props.fileInput($event)">
+            <input type="file" @change="props.fileInput($event)" :accept="props.accept">
         </label>
     </button>
 </template>
@@ -10,6 +10,7 @@
 <script setup lang="ts">
 const props = defineProps<{
     fileInput: Function
+    accept?: string
 }>();
 
 </script>

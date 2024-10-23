@@ -1,6 +1,6 @@
 <template>
     <div>
-        <BtnInputFile text="Load" :fileInput="onFileLoad">Load</BtnInputFile>
+        <BtnInputFile text="Load" :fileInput="onFileLoad" accept=".gtlf,.glb,.step,.iges,.brep">Load</BtnInputFile>
     </div>
 </template>
 
