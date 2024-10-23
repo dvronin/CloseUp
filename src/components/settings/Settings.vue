@@ -25,6 +25,7 @@ import SelectionSettings from './selectionSettings/SelectionSettings.vue';
 :deep(.settings-item) {
     display: flex;
     align-items: center;
+    justify-content: space-between;
 }
 
 :deep(.settings-item>*) {
