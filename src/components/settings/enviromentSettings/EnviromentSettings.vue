@@ -16,7 +16,7 @@
                         <BtnInputFile :file-input="LoadHDRImage" accept=".hdr">HDR</BtnInputFile>
                         <button @click="SetBackgroundImage()"
                             :disabled="enviroment?.type == BackgroundType.image || enviroment?.texture == null"
-                            title="remove background image">X</button>
+                            title="enable background image">+</button>
                     </div>
                 </div>
             </template>

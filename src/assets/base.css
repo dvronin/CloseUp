@@ -2,7 +2,7 @@
   --color-main: #eeeeee;
   --color-text: #111111;
   --color-accent: #118bfe;
-  --color-border: #808080;
+  --color-border: #d0d0d0;
 }
 
 
@@ -13,6 +13,11 @@
   .no-filter {
     filter: invert(1);
   }
+
+  option {
+    background-color: var(--color-text);
+    color: var(--color-main);
+  }
 }
 
 *,
@@ -21,6 +26,8 @@
   box-sizing: border-box;
   margin: 0;
   font-weight: normal;
+  font-family: monospace;
+  font-size: large;
 }
 
 body {

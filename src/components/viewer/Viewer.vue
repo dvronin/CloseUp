@@ -36,6 +36,7 @@ onMounted(() => {
     flex: auto;
     display: flex;
     position: relative;
+    border: 1px solid var(--color-border);
 }
 
 canvas {
