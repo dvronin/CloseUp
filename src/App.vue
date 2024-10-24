@@ -1,6 +1,6 @@
 <template>
   <header>
-    <Header />
+    <Header v-if="viewerReady" />
   </header>
   <main>
     <aside class="element">
@@ -36,15 +36,17 @@ import TabItem from './components/shared/TabItem.vue';
 import Settings from './components/settings/Settings.vue';
 
 const model = ref<Object3D | null>(null);
+const viewerReady = ref(false);
 
 onMounted(() => {
   if (instance.viewer != null) {
     instance.viewer.addListener("loaded", onModelLoad);
+    viewerReady.value = true;
   }
 })
 
 function onModelLoad() {
-  model.value = instance.viewer?.sceneManager.modelManager.model;
+  model.value = instance.viewer!.sceneManager.modelManager.model;
 }
 
 </script>

@@ -41,6 +41,7 @@ function setDirection(): string {
 .expander {
     display: flex;
     height: 100%;
+    border: 1px solid var(--color-border);
 }
 
 .expand-button {
