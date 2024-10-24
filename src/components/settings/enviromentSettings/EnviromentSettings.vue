@@ -7,14 +7,15 @@
             <template #content>
                 <div class="settings-item">
                     <label for="background-color">Background color</label>
-                    <input type="color" name="background-color" id="background-color" :value="backgroundColor"
+                    <input type="color" name="background-color" id="background-color" v-model="backgroundColor"
                         class="no-filter" @input="ChangeBackgroundColor($event)">
                 </div>
                 <div class="settings-item">
                     <div>HDR image</div>
                     <div>
                         <BtnInputFile :file-input="LoadHDRImage" accept=".hdr">HDR</BtnInputFile>
-                        <button @click="DisableImage()" :disabled="enviroment?.type == BackgroundType.color"
+                        <button @click="SetBackgroundImage()"
+                            :disabled="enviroment?.type == BackgroundType.image || enviroment?.texture == null"
                             title="remove background image">X</button>
                     </div>
                 </div>
@@ -43,7 +44,7 @@
                 </div>
             </template>
         </HeaderedGroup>
-        <HeaderedGroup>
+        <HeaderedGroup v-show="enviroment?.texture != null">
             <template #header>
                 Background image
             </template>
@@ -92,22 +93,19 @@ import { onMounted, ref, type Ref } from 'vue';
 import HeaderedGroup from '@/components/shared/HeaderedGroup.vue';
 
 
-let enviroment: Enviroment | null = null;
-const isReflectionMapEnabled: Ref<boolean> = ref(false);
-const backgroundColor: Ref<string> = ref("");
+const enviroment: Ref<Enviroment | null> = ref(null);
+let backgroundColor: Ref<string> = ref("");
 
 onMounted(() => {
     if (instance.viewer != null) {
-        enviroment = instance.viewer.appearance.enviroment;
-        backgroundColor.value = `#${new Color(enviroment.color).getHexString()}`;
-        console.log(enviroment.exposure);
-
+        enviroment.value = instance.viewer.appearance.enviroment;
+        backgroundColor.value = `#${new Color(enviroment.value.color).getHexString()}`;
     }
 });
 
 function ChangeBackgroundColor(event: Event) {
     const hex = (event.target as any).value;
-    enviroment?.SetBackgroundColor(hex);
+    enviroment.value?.SetBackgroundColor(hex);
     instance.viewer?.appearance.Render();
 }
 
@@ -117,50 +115,50 @@ function LoadHDRImage(event: Event) {
     if (f != null)
         str = window.URL.createObjectURL(f.files[0]);
     if (str.length != 0) {
-        enviroment?.LoadBackgroundImage(str).then(() => {
+        enviroment.value?.LoadBackgroundImage(str).then(() => {
             instance.viewer?.appearance.Render();
         });
     }
 }
 
-function DisableImage() {
-    enviroment?.SetBackgroundColor(backgroundColor.value);
+function SetBackgroundImage() {
+    enviroment.value?.SetBackgroundImage();
     instance.viewer?.appearance.Render();
 }
 
 function OnReflectionChange(event: Event) {
     const value = (event.target as any).checked;
-    enviroment!.SetReflectionMap(value);
+    enviroment.value?.SetReflectionMap(value);
     instance.viewer?.appearance.Render();
 }
 
 function OnExposureChange(event: Event) {
-    enviroment!.exposure = (event.target as any).value;
+    enviroment.value!.exposure = (event.target as any).value;
     instance.viewer?.appearance.Render();
 }
 function OnBackgroundIntensityChange(event: Event) {
-    enviroment!.backgroundIntensity = (event.target as any).value;
+    enviroment.value!.backgroundIntensity = (event.target as any).value;
     instance.viewer?.appearance.Render();
 }
 function OnBackgroundBlurrinessChange(event: Event) {
-    enviroment!.backgroundBlurriness = (event.target as any).value;
+    enviroment.value!.backgroundBlurriness = (event.target as any).value;
     instance.viewer?.appearance.Render();
 }
 function OnBackgroundRotationXChange(event: Event) {
-    enviroment!.backgroundRotation.x = (event.target as any).value * Math.PI / 180;
+    enviroment.value!.backgroundRotation.x = (event.target as any).value * Math.PI / 180;
     instance.viewer?.appearance.Render();
 }
 function OnBackgroundRotationYChange(event: Event) {
-    enviroment!.backgroundRotation.y = (event.target as any).value * Math.PI / 180;
+    enviroment.value!.backgroundRotation.y = (event.target as any).value * Math.PI / 180;
     instance.viewer?.appearance.Render();
 }
 function OnBackgroundRotationZChange(event: Event) {
-    enviroment!.backgroundRotation.z = (event.target as any).value * Math.PI / 180;
+    enviroment.value!.backgroundRotation.z = (event.target as any).value * Math.PI / 180;
     instance.viewer?.appearance.Render();
 }
 function OnToneMappingChange(event: Event) {
     const value = Number.parseInt((event.target as any).value);
-    enviroment!.toneMapping = value as ToneMapping;
+    enviroment.value!.toneMapping = value as ToneMapping;
     instance.viewer?.appearance.Render();
 }
 
