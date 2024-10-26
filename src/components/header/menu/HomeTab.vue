@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="actions">
         <BtnInputFile :fileInput="onFileLoad" accept=".gtlf,.glb,.step,.iges,.brep" title="Load model file">
             <img class="icon" src="../../../assets/folder.svg" alt="Load model file">
         </BtnInputFile>
