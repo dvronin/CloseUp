@@ -17,7 +17,7 @@
                 <HomeTab />
             </TabItem>
             <TabItem title="View">
-
+                <ViewTab />
             </TabItem>
         </TabControl>
     </div>
@@ -29,6 +29,7 @@ import HomeTab from './menu/HomeTab.vue';
 import { instance } from '@/instance/instance';
 import TabControl from '../shared/TabControl.vue';
 import TabItem from '../shared/TabItem.vue';
+import ViewTab from './menu/ViewTab.vue';
 
 const modelName: Ref<string> = ref("model_name");
 

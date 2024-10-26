@@ -11,13 +11,13 @@
       </Sidebar>
     </aside>
     <Viewer />
-    <div class="element">
+    <aside class="element">
       <Sidebar direction="right">
         <Resizer direction="left">
           <Settings />
         </Resizer>
       </Sidebar>
-    </div>
+    </aside>
   </main>
   <footer class="element">footer</footer>
 </template>
@@ -32,6 +32,7 @@ import { onMounted, ref } from 'vue';
 import { Object3D } from 'three';
 import Resizer from './components/shared/Resizer.vue';
 import Settings from './components/settings/Settings.vue';
+import { ViewFitType, ViewType } from 'm3dv';
 
 const model = ref<Object3D | null>(null);
 const treeItems = ref<Object3D[]>([]);
@@ -42,6 +43,7 @@ onMounted(() => {
     instance.viewer.addListener("loaded", onModelLoad);
     viewerReady.value = true;
   }
+  window.addEventListener("keydown", onKeyDown)
 })
 
 function onModelLoad() {
@@ -50,6 +52,57 @@ function onModelLoad() {
   treeItems.value.push(...model.value.children);
 }
 
+function onKeyDown(event: KeyboardEvent) {
+  switch (event.code) {
+    case "KeyF":
+      if (instance.viewer?.selectionManager.target.length != 0) {
+        instance.viewer?.appearance.FitInView(ViewFitType.selected);
+      }
+      else if (instance.viewer.sceneManager.modelManager.model.children.length != 0) {
+        instance.viewer?.appearance.FitInView(ViewFitType.model);
+      }
+      break;
+    case "KeyI":
+      if (instance.viewer?.selectionManager.target.length != 0) {
+        instance.viewer?.Isolate();
+      }
+      else if (instance.viewer.appearance.viewType == ViewType.isolated) {
+        instance.viewer?.Isolate();
+      }
+      break;
+    case "KeyS":
+      if (instance.viewer?.selectionManager.target.length != 0) {
+        instance.viewer?.selectionManager.target.forEach(item => {
+          instance.viewer?.SetVisibility(item, true);
+        })
+      }
+      break;
+    case "KeyH":
+      if (instance.viewer?.selectionManager.target.length != 0) {
+        instance.viewer?.selectionManager.target.forEach(item => {
+          instance.viewer?.SetVisibility(item, false);
+        })
+      }
+      break;
+    case "KeyA":
+      if (event.ctrlKey == true) {
+        event.preventDefault();
+        instance.viewer?.selectionManager.HideSelected();
+        instance.viewer?.selectionManager.Select(instance.viewer.sceneManager.modelManager.model);
+        instance.viewer?.selectionManager.ShowSelected();
+        instance.viewer?.appearance.Render();
+      }
+      break;
+    case "KeyU":
+      instance.viewer?.selectionManager.HideSelected();
+      instance.viewer?.selectionManager.Select();
+      instance.viewer?.selectionManager.ShowSelected();
+      instance.viewer?.appearance.Render();
+      break;
+    default:
+      break;
+  }
+}
 </script>
 
 
@@ -65,7 +118,7 @@ main {
 aside {
   overflow-y: auto;
   overflow-x: hidden;
-  max-width: 25%;
+  max-width: 33%;
   flex: auto 0 0;
 }
 </style>

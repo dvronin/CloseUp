@@ -2,11 +2,11 @@
     <div class="tree-item" v-if="model.name.length != 0" :class="model.children.length != 0 ? `has-children` : ``">
         <details v-if="model.children.length != 0">
             <summary class="item">
-                <div class="name">{{ model.name }}</div>
+                <div class="name" :title="model.name">{{ model.name }}</div>
                 <div class="actions">
-                    <BtnInputCheckbox v-model="visibility" open-icon-path="/src/assets/visible.svg"
+                    <BtnInputCheckbox v-model="visibility" title="Show/Hide" open-icon-path="/src/assets/visible.svg"
                         closed-icon-path="/src/assets/hidden.svg" />
-                    <button title="Show" @click="Select(model)">
+                    <button title="Select" @click="Select(model)">
                         <img class="icon" src="../../assets/lens.svg" alt="Select">
                     </button>
                     <button title="Isolate" @click="Isolate(model)">
@@ -21,9 +21,9 @@
         </details>
         <div v-else>
             <div class="item">
-                <div class="name">{{ model.name }}</div>
+                <div class="name" :title="model.name">{{ model.name }}</div>
                 <div class="actions">
-                    <BtnInputCheckbox v-model="visibility" open-icon-path="/src/assets/visible.svg"
+                    <BtnInputCheckbox v-model="visibility" title="Show/Hide" open-icon-path="/src/assets/visible.svg"
                         closed-icon-path="/src/assets/hidden.svg" />
                     <button title="Show" @click="Select(model)">
                         <img class="icon" src="../../assets/lens.svg" alt="Select">
@@ -91,7 +91,7 @@ function FitInView(model: Object3D) {
     flex-direction: row;
     overflow: hidden;
     justify-content: space-between;
-    margin: 2px 15px;
+    margin: 1px 15px;
     align-items: center;
 }
 

@@ -1,5 +1,5 @@
 <template>
-    <label class="button">
+    <label class="button" :title="title">
         <img v-if="model" class="icon" :src="props.openIconPath" alt="Hide">
         <img v-else class="icon" :src="props.closedIconPath" alt="Show">
         <input type="checkbox" v-model="model">
@@ -8,6 +8,7 @@
 
 <script setup lang="ts">
 const props = defineProps<{
+    title?: string,
     openIconPath: string,
     closedIconPath: string,
 }>();
