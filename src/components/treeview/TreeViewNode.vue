@@ -1,19 +1,42 @@
 <template>
-    <details v-if="model.name.length != 0" class="tree-item">
-        <summary>
-            <div class="name" @click="Select(model)">{{ model.name }}</div>
-            <div class="actions">
-                <input type="checkbox" v-model="model.visible" title="Show\Hide"
-                    @change="instance.viewer?.SetVisibility(model, model.visible)">
-                <button title="Isolate" @click="Isolate(model)">I</button>
-                <button title="Fit in view" @click="FitInView(model)">F</button>
+    <div class="tree-item" v-if="model.name.length != 0" :class="model.children.length != 0 ? `has-children` : ``">
+        <details v-if="model.children.length != 0">
+            <summary class="item">
+                <div class="name">{{ model.name }}</div>
+                <div class="actions">
+                    <BtnInputCheckbox v-model="visibility" open-icon-path="/src/assets/visible.svg"
+                        closed-icon-path="/src/assets/hidden.svg" />
+                    <button title="Show" @click="Select(model)">
+                        <img class="icon" src="../../assets/lens.svg" alt="Select">
+                    </button>
+                    <button title="Isolate" @click="Isolate(model)">
+                        <img class="icon" src="../../assets/filter.svg" alt="Isolate">
+                    </button>
+                    <button title="Fit in view" @click="FitInView(model)">
+                        <img class="icon" src="../../assets/fit.svg" alt="Fit in view">
+                    </button>
+                </div>
+            </summary>
+            <TreeViewNode v-for="child in model.children" :model="child" :key="child.uuid" />
+        </details>
+        <div v-else>
+            <div class="item">
+                <div class="name">{{ model.name }}</div>
+                <div class="actions">
+                    <BtnInputCheckbox v-model="visibility" open-icon-path="/src/assets/visible.svg"
+                        closed-icon-path="/src/assets/hidden.svg" />
+                    <button title="Show" @click="Select(model)">
+                        <img class="icon" src="../../assets/lens.svg" alt="Select">
+                    </button>
+                    <button title="Isolate" @click="Isolate(model)">
+                        <img class="icon" src="../../assets/filter.svg" alt="Isolate">
+                    </button>
+                    <button title="Fit in view" @click="FitInView(model)">
+                        <img class="icon" src="../../assets/fit.svg" alt="Fit in view">
+                    </button>
+                </div>
             </div>
-
-        </summary>
-        <TreeViewNode v-for="child in model.children" :model="child" />
-    </details>
-    <div class="nodes" v-if="model.name.length == 0">
-        <TreeViewNode :model="child" v-for="child in model.children" />
+        </div>
     </div>
 </template>
 
@@ -21,10 +44,16 @@
 import { ViewFitType } from 'm3dv';
 import { instance } from '../../instance/instance';
 import { Object3D } from 'three';
+import BtnInputCheckbox from '../shared/BtnInputCheckbox.vue';
+import { computed } from 'vue';
 
 const props = defineProps<{
     model: Object3D
 }>();
+const visibility = computed({
+    get: () => props.model.visible,
+    set: (value) => instance.viewer?.SetVisibility(props.model, value),
+})
 
 function Select(model: Object3D) {
     instance.viewer?.selectionManager.HideSelected();
@@ -48,20 +77,25 @@ function FitInView(model: Object3D) {
 </script>
 
 <style scoped>
-summary {
+.tree-item {
+    margin-left: 10px;
+    border-left: 1px var(--color-border) dashed;
+}
+
+.has-children {
+    border-color: var(--color-accent)
+}
+
+.item {
     display: flex;
     flex-direction: row;
     overflow: hidden;
     justify-content: space-between;
     margin: 2px 15px;
+    align-items: center;
 }
 
-details {
-    margin-left: 10px;
-    border-left: 1px var(--color-border) dashed;
-}
-
-div{
+div {
     white-space: nowrap;
 }
 
@@ -75,8 +109,10 @@ div{
     padding-left: 5px;
 }
 
-.action {
+.actions {
     display: flex;
     flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }
 </style>

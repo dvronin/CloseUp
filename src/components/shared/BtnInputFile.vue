@@ -1,10 +1,8 @@
 <template>
-    <button>
-        <label>
-            <slot></slot>
-            <input type="file" @change="props.fileInput($event)" :accept="props.accept">
-        </label>
-    </button>
+    <label class="button">
+        <slot></slot>
+        <input type="file" @change="props.fileInput($event)" :accept="props.accept">
+    </label>
 </template>
 
 <script setup lang="ts">
@@ -16,6 +14,10 @@ const props = defineProps<{
 </script>
 
 <style scoped>
+label {
+    display: inline-flex;
+}
+
 input[type="file"] {
     display: none;
 }

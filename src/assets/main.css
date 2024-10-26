@@ -13,3 +13,33 @@
   color: var(--color-text);
   background-color: var(--color-main);
 }
+
+.icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.button,
+button {
+  appearance: none;
+  border: 1px solid var(--color-border);
+  padding: 5px;
+  display: inline-flex;
+  justify-content: center;
+}
+
+.button:hover:not(:disabled),
+button:hover:not(:disabled) {
+  cursor: pointer;
+  border-color: var(--color-accent);
+}
+
+.button:active:not(:disabled),
+button:active:not(:disabled) {
+  background-color: var(--color-accent);
+}
+
+.button:disabled,
+button:disabled{
+  opacity: 0.5;
+}

@@ -1,6 +1,8 @@
 <template>
     <div>
-        <BtnInputFile text="Load" :fileInput="onFileLoad" accept=".gtlf,.glb,.step,.iges,.brep">Load</BtnInputFile>
+        <BtnInputFile :fileInput="onFileLoad" accept=".gtlf,.glb,.step,.iges,.brep">
+            <img class="icon" src="../../../assets/folder.svg" alt="Load model file">
+        </BtnInputFile>
     </div>
 </template>
 

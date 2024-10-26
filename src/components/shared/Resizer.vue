@@ -87,6 +87,10 @@ function onMouseUp(event: MouseEvent) {
     user-select: none;
 }
 
+.separator:hover {
+    background-color: var(--color-accent);
+}
+
 .down {
     flex-direction: column;
 }

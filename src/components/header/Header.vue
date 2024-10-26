@@ -5,21 +5,30 @@
             <div class="file-name">{{ modelName }}</div>
             <nav class="links">
                 <a href="https://github.com/123Wampir">
-                    <img src="../../assets/github-mark.svg" alt="github">
+                    <img class="icon" src="../../assets/github-mark.svg" alt="github">
                 </a>
                 <a href="https://vk.com/dv.ronin">
-                    <img src="../../assets/VK Logo Black & White.svg" alt="vk">
+                    <img class="icon" src="../../assets/VK Logo Black & White.svg" alt="vk">
                 </a>
             </nav>
         </div>
-        <Menu />
+        <TabControl>
+            <TabItem title="Home">
+                <HomeTab />
+            </TabItem>
+            <TabItem title="View">
+
+            </TabItem>
+        </TabControl>
     </div>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref, type Ref } from 'vue';
-import Menu from './menu/Menu.vue';
+import HomeTab from './menu/HomeTab.vue';
 import { instance } from '@/instance/instance';
+import TabControl from '../shared/TabControl.vue';
+import TabItem from '../shared/TabItem.vue';
 
 const modelName: Ref<string> = ref("model_name");
 
@@ -57,10 +66,5 @@ onMounted(() => {
     margin: 4px;
     text-align: center;
     vertical-align: middle;
-}
-
-img {
-    height: 1rem;
-    width: 1rem;
 }
 </style>

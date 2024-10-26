@@ -35,7 +35,7 @@ function ChangeActiveTab(index: number) {
         activeTabIndex.value = index;
         return;
     }
-    
+
     if (headers.value.length != 0) {
         if (headers.value[activeTabIndex.value].classList.contains(activeClassName)) {
             headers.value[activeTabIndex.value].classList.remove(activeClassName)
@@ -61,8 +61,7 @@ function ChangeActiveTab(index: number) {
 
 .header {
     border: 1px solid var(--color-border);
-    padding: 2px 5px;
-    margin: 0 1px;
+    padding: 3px 5px;
     cursor: pointer;
 }
 
