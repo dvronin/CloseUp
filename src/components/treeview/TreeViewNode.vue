@@ -1,8 +1,8 @@
 <template>
-    <div class="tree-item" v-if="model.name.length != 0" :class="model.children.length != 0 ? `has-children` : ``">
+    <div class="tree-item" :class="model.children.length != 0 ? `has-children` : ``">
         <details v-if="model.children.length != 0">
             <summary class="item">
-                <div class="name" :title="model.name">{{ model.name }}</div>
+                <div class="name" :title="name">{{ name }}</div>
                 <div class="actions">
                     <BtnInputCheckbox v-model="visibility" title="Show/Hide" open-icon-path="/src/assets/visible.svg"
                         closed-icon-path="/src/assets/hidden.svg" />
@@ -21,7 +21,7 @@
         </details>
         <div v-else>
             <div class="item">
-                <div class="name" :title="model.name">{{ model.name }}</div>
+                <div class="name" :title="name">{{ name }}</div>
                 <div class="actions">
                     <BtnInputCheckbox v-model="visibility" title="Show/Hide" open-icon-path="/src/assets/visible.svg"
                         closed-icon-path="/src/assets/hidden.svg" />
@@ -53,6 +53,19 @@ const props = defineProps<{
 const visibility = computed({
     get: () => props.model.visible,
     set: (value) => instance.viewer?.SetVisibility(props.model, value),
+})
+
+const name = computed(() => {
+    let name = props.model.name.trim();
+    if (name.length == 0) {
+        if (props.model.children.length != 0) {
+            return "Object";
+        }
+        else {
+            return "Mesh";
+        }
+    }
+    return name;
 })
 
 function Select(model: Object3D) {
