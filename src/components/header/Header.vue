@@ -68,4 +68,14 @@ onMounted(() => {
     text-align: center;
     vertical-align: middle;
 }
+
+:deep(.actions) {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+:deep(.actions>*) {
+    margin: 1px;
+}
 </style>

@@ -9,7 +9,9 @@ import { instance } from '@/instance/instance';
 import { Viewer } from 'm3dv';
 import { onMounted, ref, type Ref } from 'vue';
 
-const occtImportJsWasmPath: string = "";
+const occtImportJsWasmPath: string = new URL("/src/assets/occt-import-js.wasm", import.meta.url).href;
+console.log(occtImportJsWasmPath);
+
 const canvas: Ref<HTMLCanvasElement | null> = ref(null);
 
 onMounted(() => {

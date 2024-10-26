@@ -1,9 +1,12 @@
 <template>
-    <div>
+    <div class="actions">
         <BtnInputCheckbox v-model="wireframe" open-icon-path="/src/assets/visible.svg"
             closed-icon-path="/src/assets/visible.svg" />
         <BtnInputCheckbox v-model="cameraType" open-icon-path="/src/assets/visible.svg"
             closed-icon-path="/src/assets/visible.svg" />
+        <BtnInputCheckbox v-model="controlsType" open-icon-path="/src/assets/visible.svg"
+            closed-icon-path="/src/assets/visible.svg" />
+        <p>Text</p>
     </div>
 </template>
 
@@ -11,7 +14,7 @@
 import { instance } from '@/instance/instance';
 import BtnInputCheckbox from '@/components/shared/BtnInputCheckbox.vue';
 import { computed } from 'vue';
-import { CameraType } from 'm3dv';
+import { CameraType, ControlsType } from 'm3dv';
 
 const wireframe = computed({
     get: (): boolean => { return instance.viewer!.appearance.wireframe; },
@@ -28,6 +31,14 @@ const cameraType = computed({
         instance.viewer?.appearance.Render();
     }
 });
+
+const controlsType = computed({
+    get: (): boolean => { return instance.viewer!.controls.controlsType == ControlsType.orbit },
+    set: (value: boolean) => {
+        instance.viewer!.controls.SetCameraControl(value == true ? ControlsType.orbit : ControlsType.trackball);
+        instance.viewer?.appearance.Render();
+    }
+})
 
 
 
