@@ -13,10 +13,14 @@
                 <div class="settings-item">
                     <div>HDR image</div>
                     <div>
-                        <BtnInputFile :file-input="LoadHDRImage" accept=".hdr">HDR</BtnInputFile>
+                        <BtnInputFile :file-input="LoadHDRImage" accept=".hdr">
+                            <img class="icon" src="../../../assets/folder.svg" alt="Load HDR image">
+                        </BtnInputFile>
                         <button @click="SetBackgroundImage()"
                             :disabled="enviroment?.type == BackgroundType.image || enviroment?.texture == null"
-                            title="enable background image">+</button>
+                            title="enable background image">
+                            <img class="icon" src="../../../assets/visible.svg" alt="Show background image">
+                        </button>
                     </div>
                 </div>
             </template>

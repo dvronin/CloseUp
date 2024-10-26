@@ -1,9 +1,11 @@
 <template>
     <div class="expander" :style="setDirection()">
-        <label>
+        <div>
             <input type="checkbox" v-model="open" name="expand-button" class="expand-button">
-            <button @click="open = !open">></button>
-        </label>
+            <button @click="open = !open" :class="open == true ? `open` : ``">
+                <img class="icon" src="../../assets/arrow.svg" alt="Expander arrow" :class="props.direction">
+            </button>
+        </div>
         <div class="content" v-if="open">
             <slot></slot>
         </div>
@@ -51,5 +53,25 @@ function setDirection(): string {
 .content {
     flex: auto;
     width: 0%;
+}
+
+.open {
+    transform: rotate(180deg);
+}
+
+.down {
+    transform: rotate(270deg);
+}
+
+.up {
+    transform: rotate(90deg);
+}
+
+.right {
+    transform: rotate(180deg);
+}
+
+.left {
+    transform: rotate(0deg);
 }
 </style>

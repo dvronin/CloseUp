@@ -4,15 +4,15 @@
   </header>
   <main>
     <aside class="element">
-      <Sidebar direction="right">
+      <Sidebar direction="left">
         <Resizer direction="right">
-          <TreeView v-if="model != null" :model="model" />
+          <TreeView v-if="model != null" :items="treeItems" />
         </Resizer>
       </Sidebar>
     </aside>
     <Viewer />
     <div class="element">
-      <Sidebar direction="left">
+      <Sidebar direction="right">
         <Resizer direction="left">
           <Settings />
         </Resizer>
@@ -29,13 +29,12 @@ import Sidebar from './components/shared/Sidebar.vue';
 import TreeView from './components/treeview/TreeView.vue';
 import { instance } from './instance/instance';
 import { onMounted, ref } from 'vue';
-import type { Object3D } from 'three';
+import { Object3D } from 'three';
 import Resizer from './components/shared/Resizer.vue';
-import TabControl from './components/shared/TabControl.vue';
-import TabItem from './components/shared/TabItem.vue';
 import Settings from './components/settings/Settings.vue';
 
 const model = ref<Object3D | null>(null);
+const treeItems = ref<Object3D[]>([]);
 const viewerReady = ref(false);
 
 onMounted(() => {
@@ -47,6 +46,8 @@ onMounted(() => {
 
 function onModelLoad() {
   model.value = instance.viewer!.sceneManager.modelManager.model;
+  treeItems.value.length = 0;
+  treeItems.value.push(...model.value.children);
 }
 
 </script>
