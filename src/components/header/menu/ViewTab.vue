@@ -1,18 +1,20 @@
 <template>
     <div class="actions">
-        <BtnInputCheckbox v-model="wireframe" open-icon-path="/src/assets/visible.svg"
-            closed-icon-path="/src/assets/visible.svg" />
-        <BtnInputCheckbox v-model="cameraType" open-icon-path="/src/assets/visible.svg"
-            closed-icon-path="/src/assets/visible.svg" />
-        <BtnInputCheckbox v-model="controlsType" open-icon-path="/src/assets/visible.svg"
-            closed-icon-path="/src/assets/visible.svg" />
+        <BtnInputCheckbox v-model="wireframe" open-icon-path="/visible.svg"
+            closed-icon-path="/visible.svg" />
+        <BtnInputCheckbox v-model="cameraType" open-icon-path="/visible.svg"
+            closed-icon-path="/visible.svg" />
+        <BtnInputCheckbox v-model="controlsType" open-icon-path="/visible.svg"
+            closed-icon-path="/visible.svg" />
         <p>Text</p>
+        <button style="padding: 3px;" @click="instance.helper.emit(`sidebar-change`, `ViewSettings`)">View
+            settings</button>
     </div>
 </template>
 
 <script setup lang="ts">
-import { instance } from '@/instance/instance';
-import BtnInputCheckbox from '@/components/shared/BtnInputCheckbox.vue';
+import { instance } from '../../../instance/instance';
+import BtnInputCheckbox from '../../../components/shared/BtnInputCheckbox.vue';
 import { computed } from 'vue';
 import { CameraType, ControlsType } from 'm3dv';
 

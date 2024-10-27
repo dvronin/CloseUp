@@ -5,10 +5,10 @@
             <div class="file-name">{{ modelName }}</div>
             <nav class="links">
                 <a href="https://github.com/123Wampir">
-                    <img class="icon" src="../../assets/github-mark.svg" alt="github">
+                    <img class="icon" src="/github-mark.svg" alt="github">
                 </a>
                 <a href="https://vk.com/dv.ronin">
-                    <img class="icon" src="../../assets/VK Logo Black & White.svg" alt="vk">
+                    <img class="icon" src="/VK Logo Black & White.svg" alt="vk">
                 </a>
             </nav>
         </div>
@@ -26,7 +26,7 @@
 <script setup lang="ts">
 import { onMounted, ref, type Ref } from 'vue';
 import HomeTab from './menu/HomeTab.vue';
-import { instance } from '@/instance/instance';
+import { instance } from '../../instance/instance';
 import TabControl from '../shared/TabControl.vue';
 import TabItem from '../shared/TabItem.vue';
 import ViewTab from './menu/ViewTab.vue';

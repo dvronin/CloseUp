@@ -4,16 +4,16 @@
             <summary class="item">
                 <div class="name" :title="name">{{ name }}</div>
                 <div class="actions">
-                    <BtnInputCheckbox v-model="visibility" title="Show/Hide" open-icon-path="/src/assets/visible.svg"
-                        closed-icon-path="/src/assets/hidden.svg" />
+                    <BtnInputCheckbox v-model="visibility" title="Show/Hide" open-icon-path="/visible.svg"
+                        closed-icon-path="/hidden.svg" />
                     <button title="Select" @click="Select(model)">
-                        <img class="icon" src="../../assets/lens.svg" alt="Select">
+                        <img class="icon" src="/lens.svg" alt="Select">
                     </button>
                     <button title="Isolate" @click="Isolate(model)">
-                        <img class="icon" src="../../assets/filter.svg" alt="Isolate">
+                        <img class="icon" src="/filter.svg" alt="Isolate">
                     </button>
                     <button title="Fit in view" @click="FitInView(model)">
-                        <img class="icon" src="../../assets/fit.svg" alt="Fit in view">
+                        <img class="icon" src="/fit.svg" alt="Fit in view">
                     </button>
                 </div>
             </summary>
@@ -23,16 +23,16 @@
             <div class="item">
                 <div class="name" :title="name">{{ name }}</div>
                 <div class="actions">
-                    <BtnInputCheckbox v-model="visibility" title="Show/Hide" open-icon-path="/src/assets/visible.svg"
-                        closed-icon-path="/src/assets/hidden.svg" />
+                    <BtnInputCheckbox v-model="visibility" title="Show/Hide" open-icon-path="/visible.svg"
+                        closed-icon-path="/hidden.svg" />
                     <button title="Show" @click="Select(model)">
-                        <img class="icon" src="../../assets/lens.svg" alt="Select">
+                        <img class="icon" src="/lens.svg" alt="Select">
                     </button>
                     <button title="Isolate" @click="Isolate(model)">
-                        <img class="icon" src="../../assets/filter.svg" alt="Isolate">
+                        <img class="icon" src="/filter.svg" alt="Isolate">
                     </button>
                     <button title="Fit in view" @click="FitInView(model)">
-                        <img class="icon" src="../../assets/fit.svg" alt="Fit in view">
+                        <img class="icon" src="/fit.svg" alt="Fit in view">
                     </button>
                 </div>
             </div>

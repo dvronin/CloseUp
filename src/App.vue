@@ -1,25 +1,30 @@
 <template>
-  <header>
-    <Header v-if="viewerReady" />
-  </header>
-  <main>
-    <aside class="element">
-      <Sidebar direction="left">
-        <Resizer direction="right">
-          <TreeView v-if="model != null" :items="treeItems" />
-        </Resizer>
-      </Sidebar>
-    </aside>
-    <Viewer />
-    <aside class="element">
-      <Sidebar direction="right">
-        <Resizer direction="left">
-          <Settings />
-        </Resizer>
-      </Sidebar>
-    </aside>
-  </main>
-  <footer class="element">footer</footer>
+  <Layout>
+    <template #header>
+      <Header v-if="viewerReady" />
+    </template>
+    <template #main>
+      <aside class="element">
+        <Sidebar direction="left">
+          <Resizer direction="right">
+            <TreeView v-if="model != null" :items="treeItems" />
+          </Resizer>
+        </Sidebar>
+      </aside>
+      <Viewer />
+      <aside class="element">
+        <Sidebar direction="right">
+          <Resizer direction="left">
+            <component :is="sidebarItems[selectedSidebarItem]"></component>
+            <!-- <Settings /> -->
+          </Resizer>
+        </Sidebar>
+      </aside>
+    </template>
+    <template #footer>
+      footer
+    </template>
+  </Layout>
 </template>
 
 <script setup lang="ts">
@@ -31,25 +36,36 @@ import { instance } from './instance/instance';
 import { onMounted, ref } from 'vue';
 import { Object3D } from 'three';
 import Resizer from './components/shared/Resizer.vue';
-import Settings from './components/settings/Settings.vue';
+import ViewSettings from './components/settings/viewSettings/ViewSettings.vue';
 import { ViewFitType, ViewType } from 'm3dv';
+import Layout from './components/layout/Layout.vue';
 
 const model = ref<Object3D | null>(null);
 const treeItems = ref<Object3D[]>([]);
 const viewerReady = ref(false);
+const sidebarItems: any = { ViewSettings };
+
+const selectedSidebarItem = ref<string>("");
 
 onMounted(() => {
   if (instance.viewer != null) {
     instance.viewer.addListener("loaded", onModelLoad);
     viewerReady.value = true;
   }
-  window.addEventListener("keydown", onKeyDown)
+  instance.helper.addListener("sidebar-change", ChangeSidebarItem);
+  window.addEventListener("keydown", onKeyDown);
 })
 
 function onModelLoad() {
   model.value = instance.viewer!.sceneManager.modelManager.model;
   treeItems.value.length = 0;
   treeItems.value.push(...model.value.children);
+}
+
+function ChangeSidebarItem(value: string) {
+  if (sidebarItems[value] != undefined) {
+    selectedSidebarItem.value = value;
+  }
 }
 
 function onKeyDown(event: KeyboardEvent) {
@@ -107,14 +123,6 @@ function onKeyDown(event: KeyboardEvent) {
 
 
 <style scoped>
-main {
-  flex: auto 1 0;
-  width: auto;
-  height: 0%;
-  display: flex;
-  flex-direction: row;
-}
-
 aside {
   overflow-y: auto;
   overflow-x: hidden;

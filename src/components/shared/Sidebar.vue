@@ -3,7 +3,7 @@
         <div>
             <input type="checkbox" v-model="open" name="expand-button" class="expand-button">
             <button @click="open = !open" :class="open == true ? `open` : ``">
-                <img class="icon" src="../../assets/arrow.svg" alt="Expander arrow" :class="props.direction">
+                <img class="icon" src="/arrow.svg" alt="Expander arrow" :class="props.direction">
             </button>
         </div>
         <div class="content" v-if="open">

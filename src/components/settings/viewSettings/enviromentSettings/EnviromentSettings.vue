@@ -14,12 +14,12 @@
                     <div>HDR image</div>
                     <div>
                         <BtnInputFile :file-input="LoadHDRImage" accept=".hdr">
-                            <img class="icon" src="../../../assets/folder.svg" alt="Load HDR image">
+                            <img class="icon" src="/folder.svg" alt="Load HDR image">
                         </BtnInputFile>
                         <button @click="SetBackgroundImage()"
                             :disabled="enviroment?.type == BackgroundType.image || enviroment?.texture == null"
                             title="enable background image">
-                            <img class="icon" src="../../../assets/visible.svg" alt="Show background image">
+                            <img class="icon" src="/visible.svg" alt="Show background image">
                         </button>
                     </div>
                 </div>
@@ -88,13 +88,13 @@
 </template>
 
 <script setup lang="ts">
-import BtnInputFile from '@/components/shared/BtnInputFile.vue';
-import { instance } from '@/instance/instance';
+import BtnInputFile from '../../../shared/BtnInputFile.vue';
+import { instance } from '../../../../instance/instance';
 import { BackgroundType, type Enviroment } from 'm3dv';
 import { ToneMapping } from 'm3dv/dist/Managers/Objects/Enviroment';
 import { Color } from 'three';
 import { onMounted, ref, type Ref } from 'vue';
-import HeaderedGroup from '@/components/shared/HeaderedGroup.vue';
+import HeaderedGroup from '../../../shared/HeaderedGroup.vue';
 
 
 const enviroment: Ref<Enviroment | null> = ref(null);
