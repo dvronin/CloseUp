@@ -17,12 +17,14 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-    margin: 2px 4px;
 }
 
 .header {
     font-size: 120%;
-    /* border-bottom: 1px solid var(--color-border); */
+}
 
+.content {
+    margin-left: px;
+    margin: 2px 4px;
 }
 </style>

@@ -21,6 +21,7 @@ import SelectionSettings from './selectionSettings/SelectionSettings.vue';
 :deep(.settings) {
     display: flex;
     flex-direction: column;
+    padding: 2px 4px;
 }
 
 :deep(.settings-item) {

@@ -39,13 +39,14 @@ import Resizer from './components/shared/Resizer.vue';
 import ViewSettings from './components/settings/viewSettings/ViewSettings.vue';
 import { ViewFitType, ViewType } from 'm3dv';
 import Layout from './components/layout/Layout.vue';
+import Properties from './components/properties/Properties.vue';
 
 const model = ref<Object3D | null>(null);
 const treeItems = ref<Object3D[]>([]);
 const viewerReady = ref(false);
-const sidebarItems: any = { ViewSettings };
+const sidebarItems: any = { Properties, ViewSettings };
 
-const selectedSidebarItem = ref<string>("");
+const selectedSidebarItem = ref<string>("Properties");
 
 onMounted(() => {
   if (instance.viewer != null) {
