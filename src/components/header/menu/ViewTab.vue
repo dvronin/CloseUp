@@ -1,14 +1,13 @@
 <template>
     <div class="actions">
-        <BtnInputCheckbox v-model="wireframe" open-icon-path="/visible.svg"
-            closed-icon-path="/visible.svg" />
-        <BtnInputCheckbox v-model="cameraType" open-icon-path="/visible.svg"
-            closed-icon-path="/visible.svg" />
-        <BtnInputCheckbox v-model="controlsType" open-icon-path="/visible.svg"
-            closed-icon-path="/visible.svg" />
+        <BtnInputCheckbox v-model="wireframe" open-icon-path="/visible.svg" closed-icon-path="/visible.svg" />
+        <BtnInputCheckbox v-model="cameraType" open-icon-path="/visible.svg" closed-icon-path="/visible.svg" />
+        <BtnInputCheckbox v-model="controlsType" open-icon-path="/visible.svg" closed-icon-path="/visible.svg" />
         <p>Text</p>
         <button style="padding: 3px;" @click="instance.helper.emit(`sidebar-change`, `ViewSettings`)">View
             settings</button>
+        <button style="padding: 3px;" @click="instance.helper.emit(`sidebar-change`, `Properties`)">View
+            properties</button>
     </div>
 </template>
 
