@@ -9,8 +9,8 @@
 </template>
 
 <script setup lang="ts">
-import { instance } from '@/instance/instance';
-import type { Enviroment, SelectionManager } from 'm3dv';
+import { instance } from '../../../../instance/instance';
+import type { SelectionManager } from 'm3dv';
 import { Color } from 'three';
 import { onMounted, ref, type Ref } from 'vue';
 

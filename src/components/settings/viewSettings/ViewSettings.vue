@@ -10,10 +10,11 @@
 </template>
 
 <script setup lang="ts">
-import TabControl from '../shared/TabControl.vue';
-import TabItem from '../shared/TabItem.vue';
+import TabControl from '../../shared/TabControl.vue';
+import TabItem from '../../shared/TabItem.vue';
 import EnviromentSettings from './enviromentSettings/EnviromentSettings.vue';
 import SelectionSettings from './selectionSettings/SelectionSettings.vue';
+
 </script>
 
 <style scoped>

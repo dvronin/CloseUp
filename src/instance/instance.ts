@@ -1,7 +1,10 @@
+import { UIHelper } from "../helper/uihelper";
 import { Viewer } from "m3dv";
 
 export const instance: {
-    viewer: Viewer | null
+    viewer: Viewer | null,
+    helper: UIHelper
 } = {
-    viewer: null
+    viewer: null,
+    helper: new UIHelper()
 };
