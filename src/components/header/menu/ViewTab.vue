@@ -8,6 +8,7 @@
             settings</button>
         <button style="padding: 3px;" @click="instance.helper.emit(`sidebar-change`, `Properties`)">Properties</button>
         <button style="padding: 3px;" @click="instance.helper.emit(`sidebar-change`, `PlaneSettings`)">Sections</button>
+        <button style="padding: 3px;" @click="instance.helper.emit(`sidebar-change`, `ExplodeSettings`)">Explode</button>
     </div>
 </template>
 

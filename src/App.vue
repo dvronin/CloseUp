@@ -40,11 +40,12 @@ import { ViewFitType, ViewType } from 'm3dv';
 import Layout from './components/layout/Layout.vue';
 import Properties from './components/properties/Properties.vue';
 import PlaneSettings from './components/settings/planeSettings/PlaneSettings.vue';
+import ExplodeSettings from './components/settings/explodeSettings/ExplodeSettings.vue';
 
 const model = ref<Object3D | null>(null);
 const treeItems = ref<Object3D[]>([]);
 const viewerReady = ref(false);
-const sidebarItems: any = { Properties, ViewSettings, PlaneSettings };
+const sidebarItems: any = { Properties, ViewSettings, PlaneSettings, ExplodeSettings };
 
 const selectedSidebarItem = ref<string>("PlaneSettings");
 
