@@ -25,13 +25,13 @@
                 <div class="actions">
                     <BtnInputCheckbox v-model="visibility" title="Show/Hide" open-icon-path="/visible.svg"
                         closed-icon-path="/hidden.svg" />
-                    <button title="Show" @click="Select(model)">
+                    <button title="Show" @click="Select(props.model)">
                         <img class="icon" src="/lens.svg" alt="Select">
                     </button>
-                    <button title="Isolate" @click="Isolate(model)">
+                    <button title="Isolate" @click="Isolate(props.model)">
                         <img class="icon" src="/filter.svg" alt="Isolate">
                     </button>
-                    <button title="Fit in view" @click="FitInView(model)">
+                    <button title="Fit in view" @click="FitInView(props.model)">
                         <img class="icon" src="/fit.svg" alt="Fit in view">
                     </button>
                 </div>
@@ -69,22 +69,37 @@ const name = computed(() => {
 })
 
 function Select(model: Object3D) {
+    instance.viewer?.selectionManager.Select(instance.viewer.sceneManager.modelManager.model);
     instance.viewer?.selectionManager.HideSelected();
-    instance.viewer?.selectionManager.Select(model);
-    instance.viewer?.selectionManager.ShowSelected();
+    const obj = instance.viewer?.sceneManager.modelManager.model.getObjectByProperty("uuid", model.uuid);
+    if (obj != undefined) {
+        instance.viewer?.selectionManager.Select(obj);
+        instance.viewer?.selectionManager.ShowSelected();
+    }
 
     instance.viewer?.appearance.Render();
 }
 
 function Isolate(model: Object3D) {
-    instance.viewer?.selectionManager.Select(model);
-    instance.viewer?.Isolate();
-    // instance.viewer?.selectionManager.Select();
+    const obj = instance.viewer?.sceneManager.modelManager.model.getObjectByProperty("uuid", model.uuid);
+    if (obj != undefined) {
+        instance.viewer?.selectionManager.Select(instance.viewer.sceneManager.modelManager.model);
+        instance.viewer?.selectionManager.HideSelected();
+        instance.viewer?.selectionManager.Select(obj);
+        instance.viewer?.Isolate();
+        instance.viewer?.selectionManager.Select();
+    }
 }
 
 function FitInView(model: Object3D) {
-    instance.viewer?.selectionManager.Select(model);
-    instance.viewer?.appearance.FitInView(ViewFitType.selected);
+    const obj = instance.viewer?.sceneManager.modelManager.model.getObjectByProperty("uuid", model.uuid);
+    if (obj != undefined) {
+        instance.viewer?.selectionManager.Select(instance.viewer.sceneManager.modelManager.model);
+        instance.viewer?.selectionManager.HideSelected();
+        instance.viewer?.selectionManager.Select(obj);
+        instance.viewer?.appearance.FitInView(ViewFitType.selected);
+        instance.viewer?.selectionManager.Select();
+    }
 }
 
 </script>

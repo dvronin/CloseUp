@@ -98,7 +98,7 @@ import HeaderedGroup from '../../../shared/HeaderedGroup.vue';
 
 
 const enviroment: Ref<Enviroment | null> = ref(null);
-let backgroundColor: Ref<string> = ref("");
+const backgroundColor: Ref<string> = ref("");
 
 onMounted(() => {
     if (instance.viewer != null) {

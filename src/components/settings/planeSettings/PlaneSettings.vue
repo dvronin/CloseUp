@@ -12,26 +12,76 @@
                 </div>
                 <HeaderedGroup>
                     <template #header>
+                        Background type
+                    </template>
+                    <template #content>
+                        <div class="settings-item">
+                            <label for="fill-color">Fill color</label>
+                            <input type="color" name="fill-color" id="fill-color" v-model="fillColor" class="no-filter"
+                                @input="ChangeSectionFillColor($event)">
+                        </div>
+                        <div class="settings-item">
+                            <div>Texture</div>
+                            <div>
+                                <BtnInputFile :file-input="LoadSectionFillImage" accept=".jpg,.jpeg,.png">
+                                    <img class="icon" src="/folder.svg" alt="Load image texture">
+                                </BtnInputFile>
+                                <button @click="SetSectionFillColor()"
+                                    :disabled="planeManager?.type == SectionFillType.image || planeManager?.texture == null"
+                                    title="enable fill image">
+                                    <img class="icon" src="/visible.svg" alt="Show image">
+                                </button>
+                                <button :disabled="planeManager?.texture == null" title="remove texture">
+                                    <img class="icon" src="/minus.svg" alt="Remove texture">
+                                </button>
+                            </div>
+                        </div>
+                    </template>
+                </HeaderedGroup>
+                <HeaderedGroup>
+                    <template #header>
+                        Exclude list
+                    </template>
+                    <template #content>
+                        <div class="list">
+                            <select class="list-items" multiple v-model="selectedExcluded" size="4">
+                                <option v-for="(item, index) in excluded" :value="item" :key="index">{{ item.name }}
+                                </option>
+                            </select>
+                            <div class="controls">
+                                <button :disabled="selected.length == 0" @click="Exclude()"><img class="icon"
+                                        src="/plus.svg" alt="Add plane"></button>
+                                <button :disabled="selectedExcluded.length == 0" @click="Include()"><img class="icon"
+                                        src="/minus.svg" alt="Remove plane"></button>
+                            </div>
+                        </div>
+                    </template>
+                </HeaderedGroup>
+                <HeaderedGroup>
+                    <template #header>
                         Plane list
                     </template>
                     <template #content>
                         <div class="list">
-                            <select class="list-items" v-model="selected" size="4">
+                            <select class="list-items" v-model="selectedPlane" size="4">
                                 <option :value="null" :key="-1"></option>
                                 <option v-for="(item, index) in items" :value="item" :key="index">{{ item.name }}
                                 </option>
                             </select>
                             <div class="controls">
-                                <button><img class="icon" src="/plus.svg" alt="Add plane"></button>
-                                <button :disabled="selected == null"><img class="icon" src="/minus.svg"
-                                        alt="Remove plane"></button>
+                                <button @click="AddPlane()"><img class="icon" src="/plus.svg" alt="Add plane"></button>
+                                <button :disabled="selectedPlane == null" @click="DeletePlane()"><img class="icon"
+                                        src="/minus.svg" alt="Remove plane"></button>
                             </div>
                         </div>
                     </template>
                 </HeaderedGroup>
-                <HeaderedGroup v-if="selected != null">
+                <HeaderedGroup v-if="selectedPlane != null">
                     <template #header>
-                        Plane: {{ selected.name }}
+                        <div class="selected-plane">
+                            <div>Plane:</div>
+                            <div class="plane-name">{{ selectedPlane.name }}</div>
+                        </div>
                     </template>
                     <template #content>
                         <div class="settings-item">
@@ -40,13 +90,13 @@
                                 closed-icon-path="/hidden.svg" id="visibility" />
                         </div>
                         <div class="settings-item">
-                            <button @click="OnInvert(selected)">Invert</button>
+                            <button @click="OnInvert(selectedPlane)">Invert</button>
                         </div>
                         <div class="settings-item">
                             <label for="constant">Offset</label>
                             <input type="range" id="constant" v-model="offset"
-                                :max="selected.max + Math.abs(selected.max / 1e2)"
-                                :min="selected.min - Math.abs(selected.min / 1e2)" :step="step" />
+                                :max="selectedPlane.max + Math.abs(selectedPlane.max / 1e2)"
+                                :min="selectedPlane.min - Math.abs(selectedPlane.min / 1e2)" :step="step" />
                         </div>
                     </template>
                 </HeaderedGroup>
@@ -57,25 +107,40 @@
 
 <script setup lang="ts">
 import BtnInputCheckbox from '@/components/shared/BtnInputCheckbox.vue';
+import BtnInputFile from '@/components/shared/BtnInputFile.vue';
 import HeaderedGroup from '@/components/shared/HeaderedGroup.vue';
 import { instance } from '@/instance/instance';
-import type { Plane } from 'm3dv';
+import type { Plane, PlaneManager } from 'm3dv';
+import { SectionFillType } from 'm3dv/dist/Managers/Planes/PlaneManager';
+import { Object3D, Vector3 } from 'three';
 import { computed, onMounted, ref, type Ref } from 'vue';
 
-const items = ref<readonly Plane[]>([]);
-const selected: Ref<Plane | null> = ref(null);
+const items = ref<Plane[]>([]);
+const selectedPlane: Ref<Plane | null> = ref(null);
+const selectedExcluded: Ref<Object3D[]> = ref([]);
+const excluded = ref<Object3D[]>([]);
+const selected = ref<readonly Object3D[]>([]);
+
+const planeManager: Ref<PlaneManager | null> = ref(null);
+const fillColor: Ref<string> = ref(instance.viewer?.sceneManager.planeManager.color!);
 
 onMounted(() => {
+    planeManager.value = instance.viewer!.sceneManager.planeManager;
+    items.value = Array.from(instance.viewer!.sceneManager.planeManager.planes.values());
+    selected.value = instance.viewer!.selectionManager.target;
     instance.viewer!.addListener("loaded", () => {
-        items.value = instance.viewer!.sceneManager.planeManager.planes;
+        console.log(instance.viewer?.sceneManager.planeManager.planes);
+        items.value = Array.from(instance.viewer!.sceneManager.planeManager.planes.values());
     });
-    items.value = instance.viewer!.sceneManager.planeManager.planes;
+    instance.viewer?.selectionManager.addListener("change", () => {
+        selected.value = instance.viewer!.selectionManager.target;
+    });
 })
 
 const visibility = computed({
-    get: () => selected.value?.visible,
+    get: () => selectedPlane.value?.visible,
     set: (value: boolean) => {
-        selected.value?.SetVisibility(value);
+        selectedPlane.value?.SetVisibility(value);
         instance.viewer?.appearance.Render();
     }
 });
@@ -89,18 +154,86 @@ const intersection = computed({
     }
 });
 
-const step = computed(() => Math.abs(selected.value!.max - selected.value!.min) / 1000);
+const step = computed(() => Math.abs(selectedPlane.value!.max - selectedPlane.value!.min) / 1000);
 
 const offset = computed({
-    get: () => selected.value?.plane.constant,
+    get: () => selectedPlane.value?.plane.constant,
     set: (value: number) => {
-        selected.value?.SetOffset(value);
+        selectedPlane.value?.SetOffset(value);
         instance.viewer?.appearance.Render();
     }
 })
 
 function OnInvert(plane: Plane) {
     plane.Invert();
+    instance.viewer?.appearance.Render();
+}
+
+function getModelArray(): Object3D[] {
+    const array: Object3D[] = [];
+    instance.viewer?.sceneManager.modelManager.model.traverse(item => array.push(item));
+    return array;
+}
+
+function Exclude() {
+    instance.viewer?.selectionManager.target.forEach(item => {
+        instance.viewer?.sceneManager.planeManager.Exclude(item);
+    });
+    const included = instance.viewer!.sceneManager.planeManager.included;
+    excluded.value.length = 0;
+    excluded.value = getModelArray().filter(item => !included.includes(item));
+    instance.viewer?.appearance.Render();
+}
+
+function Include() {
+    selectedExcluded.value.forEach(item => {
+        const obj = instance.viewer?.sceneManager.modelManager.model.getObjectByProperty("uuid", item.uuid);
+        if (obj != undefined) {
+            instance.viewer?.sceneManager.planeManager.Include(obj);
+        }
+    });
+    const included = instance.viewer!.sceneManager.planeManager.included;
+    excluded.value.length = 0;
+    selectedExcluded.value.length = 0;
+    excluded.value = getModelArray().filter(item => !included.includes(item));
+    instance.viewer?.selectionManager.Select(instance.viewer.sceneManager.modelManager.model);
+    instance.viewer?.selectionManager.HideSelected();
+    instance.viewer?.selectionManager.Select();
+    instance.viewer?.appearance.Render();
+}
+
+function LoadSectionFillImage(event: Event) {
+    let f = event.target as any;
+    let str = "";
+    if (f != null)
+        str = window.URL.createObjectURL(f.files[0]);
+    if (str.length != 0) {
+        planeManager.value?.LoadSectionFillImage(str).then(() => {
+            instance.viewer?.appearance.Render();
+        });
+    }
+}
+
+function ChangeSectionFillColor(event: Event) {
+    const hex = (event.target as any).value;
+    planeManager.value?.SetSectionFillColor(hex);
+    instance.viewer?.appearance.Render();
+}
+
+function SetSectionFillColor() {
+    planeManager.value?.SetSectionFillImage();
+    instance.viewer?.appearance.Render();
+}
+
+function AddPlane() {
+    instance.viewer?.sceneManager.planeManager.AddPlane("New plane", new Vector3(1, 1, 1));
+    items.value = Array.from(instance.viewer!.sceneManager.planeManager.planes.values());
+}
+
+function DeletePlane() {
+    selectedPlane.value?.SetVisibility(false);
+    instance.viewer?.sceneManager.planeManager.DeletePlane(selectedPlane.value!);
+    items.value = Array.from(instance.viewer!.sceneManager.planeManager.planes.values());
     instance.viewer?.appearance.Render();
 }
 
@@ -113,7 +246,7 @@ function OnInvert(plane: Plane) {
 }
 
 .list-items {
-    flex: 1 0 auto;
+    flex: 1 1 auto;
     overflow: auto;
     background-color: var(--color-main);
 }
@@ -121,10 +254,20 @@ function OnInvert(plane: Plane) {
 option {
     background-color: var(--color-main);
     color: var(--color-text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .controls {
     display: flex;
     flex-direction: column;
 }
+
+.selected-plane {
+    display: flex;
+    flex-direction: row;
+}
+
+.plane-name {}
 </style>

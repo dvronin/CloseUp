@@ -6,8 +6,8 @@
         <p>Text</p>
         <button style="padding: 3px;" @click="instance.helper.emit(`sidebar-change`, `ViewSettings`)">View
             settings</button>
-        <button style="padding: 3px;" @click="instance.helper.emit(`sidebar-change`, `Properties`)">View
-            properties</button>
+        <button style="padding: 3px;" @click="instance.helper.emit(`sidebar-change`, `Properties`)">Properties</button>
+        <button style="padding: 3px;" @click="instance.helper.emit(`sidebar-change`, `PlaneSettings`)">Sections</button>
     </div>
 </template>
 
