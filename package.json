@@ -8,22 +8,30 @@
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
     "build-only": "vite build",
-    "type-check": "vue-tsc --build --force"
+    "type-check": "vue-tsc --build --force",
+    "size": "npm run build && size-limit"
   },
   "dependencies": {
     "@types/three": "^0.169.0",
-    "m3dv": "^0.0.7",
+    "m3dv": "^0.0.8",
     "three": "^0.169.0",
     "vue": "^3.5.12"
   },
   "devDependencies": {
+    "@size-limit/preset-app": "^11.1.6",
     "@tsconfig/node20": "^20.1.4",
     "@types/node": "^20.16.11",
     "@vitejs/plugin-vue": "^5.1.4",
     "@vue/tsconfig": "^0.5.1",
     "npm-run-all2": "^6.2.3",
+    "size-limit": "^11.1.6",
     "typescript": "~5.5.4",
     "vite": "^5.4.8",
     "vue-tsc": "^2.1.6"
-  }
+  },
+  "size-limit": [
+    {
+      "path": "dist/assets/index-*.js"
+    }
+  ]
 }

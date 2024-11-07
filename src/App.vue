@@ -16,7 +16,6 @@
         <Sidebar direction="right">
           <Resizer direction="left">
             <component :is="sidebarItems[selectedSidebarItem]"></component>
-            <!-- <Settings /> -->
           </Resizer>
         </Sidebar>
       </aside>
