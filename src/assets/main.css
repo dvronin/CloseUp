@@ -9,6 +9,10 @@
   overflow: hidden;
 }
 
+a {
+  color: var(--color-accent);
+}
+
 .element {
   color: var(--color-text);
   background-color: var(--color-main);

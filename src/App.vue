@@ -8,6 +8,7 @@
         <Sidebar direction="left">
           <Resizer direction="right">
             <TreeView v-if="model != null" :items="treeItems" />
+            <div class="placeholder" v-else>Load model to see tree</div>
           </Resizer>
         </Sidebar>
       </aside>
@@ -130,5 +131,14 @@ aside {
   overflow-x: hidden;
   max-width: 33%;
   flex: auto 0 0;
+}
+
+.placeholder {
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>

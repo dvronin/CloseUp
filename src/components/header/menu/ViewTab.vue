@@ -3,12 +3,14 @@
         <BtnInputCheckbox v-model="wireframe" open-icon-path="/visible.svg" closed-icon-path="/visible.svg" />
         <BtnInputCheckbox v-model="cameraType" open-icon-path="/visible.svg" closed-icon-path="/visible.svg" />
         <BtnInputCheckbox v-model="controlsType" open-icon-path="/visible.svg" closed-icon-path="/visible.svg" />
-        <p>Text</p>
-        <button style="padding: 3px;" @click="instance.helper.emit(`sidebar-change`, `ViewSettings`)">View
-            settings</button>
-        <button style="padding: 3px;" @click="instance.helper.emit(`sidebar-change`, `Properties`)">Properties</button>
-        <button style="padding: 3px;" @click="instance.helper.emit(`sidebar-change`, `PlaneSettings`)">Sections</button>
-        <button style="padding: 3px;" @click="instance.helper.emit(`sidebar-change`, `ExplodeSettings`)">Explode</button>
+        <div class="separator"></div>
+        <div>Enviroment</div>
+        <button @click="instance.helper.emit(`sidebar-change`, `ViewSettings`)"><img class="icon" src="/gear.svg"
+                alt=""></button>
+        <div class="separator"></div>
+        <div>Properties</div>
+        <button @click="instance.helper.emit(`sidebar-change`, `Properties`)"><img class="icon" src="/gear.svg"
+                alt=""></button>
     </div>
 </template>
 
