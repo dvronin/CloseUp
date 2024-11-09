@@ -13,11 +13,6 @@
   .no-filter {
     filter: invert(1);
   }
-
-  option {
-    background-color: var(--color-text);
-    color: var(--color-main);
-  }
 }
 
 *,
@@ -28,6 +23,7 @@
   font-weight: normal;
   font-family: monospace;
   font-size: large;
+  user-select: none;
 }
 
 body {

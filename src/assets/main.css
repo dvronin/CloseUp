@@ -19,6 +19,22 @@
   height: 1rem;
 }
 
+.settings {
+  display: flex;
+  flex-direction: column;
+  padding: 2px 4px;
+}
+
+.settings-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.settings-item>* {
+  margin: 5px 10px;
+}
+
 .button,
 button {
   appearance: none;
@@ -40,6 +56,6 @@ button:active:not(:disabled) {
 }
 
 .button:disabled,
-button:disabled{
+button:disabled {
   opacity: 0.5;
 }
