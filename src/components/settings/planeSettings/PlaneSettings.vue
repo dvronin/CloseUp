@@ -44,10 +44,8 @@
                     </template>
                     <template #content>
                         <div class="list">
-                            <select class="list-items" multiple v-model="selectedExcluded" size="4">
-                                <option v-for="(item, index) in excluded" :value="item" :key="index">{{ item.name }}
-                                </option>
-                            </select>
+                            <SelectControl :multiple="true" :size="8" :items="excludeOptions"
+                                @change="OnSelectedExcludeChange($event)" />
                             <div class="controls">
                                 <button :disabled="selected.length == 0" @click="Exclude()"><img class="icon"
                                         src="/plus.svg" alt="Add plane"></button>
@@ -63,11 +61,8 @@
                     </template>
                     <template #content>
                         <div class="list">
-                            <select class="list-items" v-model="selectedPlane" size="4">
-                                <option :value="null" :key="-1"></option>
-                                <option v-for="(item, index) in items" :value="item" :key="index">{{ item.name }}
-                                </option>
-                            </select>
+                            <SelectControl :multiple="false" :items="planeOptions" :size="8"
+                                @change="OnSelectedPlaneChange($event)" />
                             <div class="controls">
                                 <button @click="AddPlane()"><img class="icon" src="/plus.svg" alt="Add plane"></button>
                                 <button :disabled="selectedPlane == null" @click="DeletePlane()"><img class="icon"
@@ -109,32 +104,33 @@
 import BtnInputCheckbox from '@/components/shared/BtnInputCheckbox.vue';
 import BtnInputFile from '@/components/shared/BtnInputFile.vue';
 import HeaderedGroup from '@/components/shared/HeaderedGroup.vue';
+import SelectControl, { type Option } from '@/components/shared/SelectControl.vue';
 import { instance } from '@/instance/instance';
 import type { Plane, PlaneManager } from 'm3dv';
 import { SectionFillType } from 'm3dv/dist/Managers/Planes/PlaneManager';
 import { Object3D, Vector3 } from 'three';
 import { computed, onMounted, ref, type Ref } from 'vue';
 
-const items = ref<Plane[]>([]);
 const selectedPlane: Ref<Plane | null> = ref(null);
 const selectedExcluded: Ref<Object3D[]> = ref([]);
-const excluded = ref<Object3D[]>([]);
+const excludeOptions = ref<Option[]>([]);
 const selected = ref<readonly Object3D[]>([]);
+const planeOptions = ref<Option[]>([]);
 
 const planeManager: Ref<PlaneManager | null> = ref(null);
 const fillColor: Ref<string> = ref(instance.viewer?.sceneManager.planeManager.color!);
 
 onMounted(() => {
     planeManager.value = instance.viewer!.sceneManager.planeManager;
-    items.value = Array.from(instance.viewer!.sceneManager.planeManager.planes.values());
+    UpdatePlaneOptions();
     selected.value = instance.viewer!.selectionManager.target;
     instance.viewer!.addListener("loaded", () => {
-        console.log(instance.viewer?.sceneManager.planeManager.planes);
-        items.value = Array.from(instance.viewer!.sceneManager.planeManager.planes.values());
+        UpdatePlaneOptions();
     });
     instance.viewer?.selectionManager.addListener("change", () => {
         selected.value = instance.viewer!.selectionManager.target;
     });
+
 })
 
 const visibility = computed({
@@ -164,6 +160,15 @@ const offset = computed({
     }
 })
 
+function OnSelectedPlaneChange(event: Option[]) {
+    if (event.length != 0)
+        selectedPlane.value = event[0].value;
+}
+
+function OnSelectedExcludeChange(event: Option[]) {
+    selectedExcluded.value = event.map(value => value.value);
+}
+
 function OnInvert(plane: Plane) {
     plane.Invert();
     instance.viewer?.appearance.Render();
@@ -175,13 +180,17 @@ function getModelArray(): Object3D[] {
     return array;
 }
 
+function UpdateExcludeOptions(items: Object3D[]) {
+    excludeOptions.value = items.map((value) => ({ name: value.name, value: value, selected: false }));
+}
+
 function Exclude() {
     instance.viewer?.selectionManager.target.forEach(item => {
         instance.viewer?.sceneManager.planeManager.Exclude(item);
     });
     const included = instance.viewer!.sceneManager.planeManager.included;
-    excluded.value.length = 0;
-    excluded.value = getModelArray().filter(item => !included.includes(item));
+    const items = getModelArray().filter(item => !included.includes(item));
+    UpdateExcludeOptions(items);
     instance.viewer?.appearance.Render();
 }
 
@@ -193,9 +202,10 @@ function Include() {
         }
     });
     const included = instance.viewer!.sceneManager.planeManager.included;
-    excluded.value.length = 0;
     selectedExcluded.value.length = 0;
-    excluded.value = getModelArray().filter(item => !included.includes(item));
+    const items = getModelArray().filter(item => !included.includes(item));
+    UpdateExcludeOptions(items);
+
     instance.viewer?.selectionManager.Select(instance.viewer.sceneManager.modelManager.model);
     instance.viewer?.selectionManager.HideSelected();
     instance.viewer?.selectionManager.Select();
@@ -225,15 +235,20 @@ function SetSectionFillColor() {
     instance.viewer?.appearance.Render();
 }
 
+function UpdatePlaneOptions() {
+    planeOptions.value = Array.from(instance.viewer!.sceneManager.planeManager.planes.values())
+        .map((value) => ({ name: value.name, value: value, selected: false }));
+}
+
 function AddPlane() {
     instance.viewer?.sceneManager.planeManager.AddPlane("New plane", new Vector3(1, 1, 1));
-    items.value = Array.from(instance.viewer!.sceneManager.planeManager.planes.values());
+    UpdatePlaneOptions();
 }
 
 function DeletePlane() {
     selectedPlane.value?.SetVisibility(false);
     instance.viewer?.sceneManager.planeManager.DeletePlane(selectedPlane.value!);
-    items.value = Array.from(instance.viewer!.sceneManager.planeManager.planes.values());
+    UpdatePlaneOptions();
     instance.viewer?.appearance.Render();
 }
 

@@ -17,20 +17,4 @@ import SelectionSettings from './selectionSettings/SelectionSettings.vue';
 
 </script>
 
-<style scoped>
-:deep(.settings) {
-    display: flex;
-    flex-direction: column;
-    padding: 2px 4px;
-}
-
-:deep(.settings-item) {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-:deep(.settings-item>*) {
-    margin: 5px 10px;
-}
-</style>
+<style scoped></style>

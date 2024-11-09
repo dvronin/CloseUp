@@ -37,14 +37,8 @@
                 </div>
                 <div class="settings-item">
                     <label for="tone">Tone mapping</label>
-                    <select name="tone" id="tone" @input="OnToneMappingChange($event)">
-                        <option value="0">linear</option>
-                        <option value="1">Reinhard</option>
-                        <option value="2">Cineon</option>
-                        <option value="3">ASEC</option>
-                        <option value="4">AgX</option>
-                        <option value="5">Neutral</option>
-                    </select>
+                    <SelectControl id="tone" :multiple="false" :items="toneMappingTypes"
+                        @change="OnToneMappingChange($event)" />
                 </div>
             </template>
         </HeaderedGroup>
@@ -95,14 +89,28 @@ import { ToneMapping } from 'm3dv/dist/Managers/Objects/Enviroment';
 import { Color } from 'three';
 import { onMounted, ref, type Ref } from 'vue';
 import HeaderedGroup from '../../../shared/HeaderedGroup.vue';
+import SelectControl, { type Option } from '@/components/shared/SelectControl.vue';
 
 
 const enviroment: Ref<Enviroment | null> = ref(null);
 const backgroundColor: Ref<string> = ref("");
+const toneMappingTypes = ref<Option[]>([
+    { name: "Linear", value: 0, selected: false },
+    { name: "Reinhard", value: 1, selected: false },
+    { name: "Cineon", value: 2, selected: false },
+    { name: "ASEC", value: 3, selected: false },
+    { name: "AgX", value: 4, selected: false },
+    { name: "Neutral", value: 5, selected: false },
+])
 
 onMounted(() => {
     if (instance.viewer != null) {
         enviroment.value = instance.viewer.appearance.enviroment;
+        const toneMapping = instance.viewer.appearance.enviroment.toneMapping;
+        const index = toneMappingTypes.value.findIndex(item => item.value == toneMapping);
+        if (index != -1) {
+            toneMappingTypes.value[index].selected = true;
+        }
         backgroundColor.value = `#${new Color(enviroment.value.color).getHexString()}`;
     }
 });
@@ -160,8 +168,8 @@ function OnBackgroundRotationZChange(event: Event) {
     enviroment.value!.backgroundRotation.z = (event.target as any).value * Math.PI / 180;
     instance.viewer?.appearance.Render();
 }
-function OnToneMappingChange(event: Event) {
-    const value = Number.parseInt((event.target as any).value);
+function OnToneMappingChange(option: Option[]) {
+    const value = option[0].value;
     enviroment.value!.toneMapping = value as ToneMapping;
     instance.viewer?.appearance.Render();
 }

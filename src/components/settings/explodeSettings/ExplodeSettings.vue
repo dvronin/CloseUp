@@ -2,12 +2,21 @@
     <div class="settings">
         <HeaderedGroup>
             <template #header>
-                Plane settings
+                Explode settings
             </template>
             <template #content>
                 <div class="settings-item">
                     <label for="explode-value">Value</label>
                     <input type="range" name="explode-value" id="explode-value" v-model="value" @input="Explode(value)"
+                        min="0" step="0.01" max="1">
+                </div>
+                <div class="settings-item">
+                    <label for="explode-type">Explode type</label>
+                    <SelectControl :multiple="false" :items="types" @change="OnExplodeTypeChange($event)" />
+                </div>
+                <div class="settings-item">
+                    <label for="explode-power">Power</label>
+                    <input type="range" name="explode-power" id="explode-power" v-model="power" @input="Explode(value)"
                         min="0" step="0.01" max="1">
                 </div>
             </template>
@@ -16,26 +25,31 @@
 </template>
 
 <script setup lang="ts">
-import BtnInputCheckbox from '@/components/shared/BtnInputCheckbox.vue';
-import BtnInputFile from '@/components/shared/BtnInputFile.vue';
 import HeaderedGroup from '@/components/shared/HeaderedGroup.vue';
+import SelectControl, { type Option } from '@/components/shared/SelectControl.vue';
 import { instance } from '@/instance/instance';
-import type { Plane, PlaneManager } from 'm3dv';
-import { SectionFillType } from 'm3dv/dist/Managers/Planes/PlaneManager';
-import { Object3D, Vector3 } from 'three';
+import { ExplodeType } from 'm3dv';
 import { computed, onMounted, ref, type Ref } from 'vue';
 
-const planeManager: Ref<PlaneManager | null> = ref(null);
 const power = ref(3);
 const value = ref(0);
+const types = ref<Option[]>([
+    { name: "Simple", value: ExplodeType.simple, selected: true },
+    { name: "Phased", value: ExplodeType.phased, selected: false }
+]);
+const explodeType = ref(ExplodeType.simple);
 
 onMounted(() => {
-
+    explodeType.value = instance.viewer!.explodeView.type;
 })
 
 function Explode(value: number) {
     instance.viewer?.explodeView.Explode(value, power.value);
     instance.viewer?.appearance.Render();
+}
+
+function OnExplodeTypeChange(option: Option[]) {
+    instance.viewer?.explodeView.InitExplode(instance.viewer.sceneManager.modelManager.model, option[0].value);
 }
 
 </script>
@@ -49,7 +63,6 @@ function Explode(value: number) {
 .list-items {
     flex: 1 1 auto;
     overflow: auto;
-    background-color: var(--color-main);
 }
 
 option {
