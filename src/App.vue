@@ -47,7 +47,7 @@ const treeItems = ref<Object3D[]>([]);
 const viewerReady = ref(false);
 const sidebarItems: any = { Properties, ViewSettings, PlaneSettings, ExplodeSettings };
 
-const selectedSidebarItem = ref<string>("PlaneSettings");
+const selectedSidebarItem = ref<string>("Properties");
 
 onMounted(() => {
   if (instance.viewer != null) {
