@@ -3,7 +3,8 @@
         <div class="content" :style="style" ref="content">
             <slot></slot>
         </div>
-        <div class="separator" :class="props.direction" @mousedown="onMouseDown($event)">
+        <div class="separator" :class="props.direction">
+            <div class="separator-area" @mousedown="onMouseDown($event)"></div>
         </div>
     </div>
 </template>
@@ -74,7 +75,7 @@ function onMouseUp(event: MouseEvent) {
     display: flex;
     width: 100%;
     height: 100%;
-    overflow: auto;
+    overflow: hidden;
 }
 
 .content {
@@ -85,10 +86,10 @@ function onMouseUp(event: MouseEvent) {
 .separator {
     background-color: var(--color-border);
     user-select: none;
-}
-
-.separator:hover {
-    background-color: var(--color-accent);
+    position: relative;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
 }
 
 .down {
@@ -119,5 +120,16 @@ function onMouseUp(event: MouseEvent) {
     width: 2px;
     height: 100%;
     cursor: e-resize;
+}
+
+.separator-area {
+    position: absolute;
+    width: 500%;
+    height: 500%;
+}
+
+.separator-area:hover {
+    background-color: var(--color-accent);
+
 }
 </style>
