@@ -1,13 +1,13 @@
 <template>
     <div class="element container">
         <div class="header">
-            <div>CADViewer powered by <a href="https://github.com/123Wampir/m3dv">m3dv</a></div>
+            <div>CADViewer powered by <a target="_blank" href="https://github.com/123Wampir/m3dv">m3dv</a></div>
             <div class="file-name">{{ modelName }}</div>
             <nav class="links">
-                <a href="https://github.com/123Wampir">
+                <a target="_blank" href="https://github.com/123Wampir">
                     <img class="icon" src="/github-mark.svg" alt="github">
                 </a>
-                <a href="https://vk.com/dv.ronin">
+                <a target="_blank" href="https://vk.com/dv.ronin">
                     <img class="icon" src="/VK Logo Black & White.svg" alt="vk">
                 </a>
             </nav>
