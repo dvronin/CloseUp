@@ -19,6 +19,9 @@
             <TabItem title="View">
                 <ViewTab />
             </TabItem>
+            <TabItem title="Edit">
+                <EditTab />
+            </TabItem>
         </TabControl>
     </div>
 </template>
@@ -30,6 +33,7 @@ import { instance } from '../../instance/instance';
 import TabControl from '../shared/TabControl.vue';
 import TabItem from '../shared/TabItem.vue';
 import ViewTab from './menu/ViewTab.vue';
+import EditTab from './menu/EditTab.vue';
 
 const modelName: Ref<string> = ref("model_name");
 
@@ -69,6 +73,13 @@ onMounted(() => {
     vertical-align: middle;
 }
 
+:deep(.separator) {
+    width: 2px;
+    height: 1rem;
+    padding: 0.75rem 0;
+    background-color: var(--color-border);
+}
+
 :deep(.actions) {
     display: flex;
     flex-direction: row;
@@ -77,5 +88,9 @@ onMounted(() => {
 
 :deep(.actions>*) {
     margin: 1px;
+}
+
+:deep(.actions>.separator) {
+    margin: 1px 5px;
 }
 </style>
