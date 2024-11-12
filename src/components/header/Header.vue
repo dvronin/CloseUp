@@ -1,9 +1,12 @@
 <template>
     <div class="element container">
         <div class="header">
-            <div>CADViewer powered by <a target="_blank" href="https://github.com/123Wampir/m3dv">m3dv</a></div>
+            <div>CloseUp 3D viewer powered by <a target="_blank" href="https://github.com/123Wampir/m3dv">m3dv</a></div>
             <div class="file-name">{{ modelName }}</div>
             <nav class="links">
+                <a target="_blank" href="https://github.com/123Wampir/CloseUp">
+                    <img class="icon" src="/favicon.svg" alt="github">
+                </a>
                 <a target="_blank" href="https://github.com/123Wampir">
                     <img class="icon" src="/github-mark.svg" alt="github">
                 </a>
@@ -38,8 +41,6 @@ import EditTab from './menu/EditTab.vue';
 const modelName: Ref<string> = ref("model_name");
 
 onMounted(() => {
-    console.log(instance);
-
     instance.viewer?.addListener("loaded", () => {
         modelName.value = instance.viewer!.sceneManager.modelManager.model.children[0].name;
     });
