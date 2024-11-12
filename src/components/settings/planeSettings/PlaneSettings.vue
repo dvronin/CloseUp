@@ -74,8 +74,15 @@
                 <HeaderedGroup v-if="selectedPlane != null">
                     <template #header>
                         <div class="selected-plane">
-                            <div>Plane:</div>
-                            <div class="plane-name">{{ selectedPlane.name }}</div>
+                            <div class="plane">
+                                <div>Plane:</div>
+                                <button v-if="editName == false" class="plane-name" @click="OnNameEdit($event)">{{
+                                    selectedPlane.name }}</button>
+                                <div v-else class="plane-name-edit">
+                                    <input style="width: 100%;" type="text" name="" id="" v-model="planeName"
+                                        @focusout="OnNameChange($event)">
+                                </div>
+                            </div>
                         </div>
                     </template>
                     <template #content>
@@ -85,13 +92,24 @@
                                 closed-icon-path="/hidden.svg" id="visibility" />
                         </div>
                         <div class="settings-item">
-                            <button @click="OnInvert(selectedPlane)">Invert</button>
+                            <div>Normal</div>
+                            <div class="vector">
+                                <label for="vec-x">x:</label>
+                                <input type="number" name="vec-x" id="vec-x" v-model="x" @change="OnNormalChange()">
+                                <label for="vec-y">y:</label>
+                                <input type="number" name="vec-y" id="vec-y" v-model="y" @change="OnNormalChange()">
+                                <label for="vec-z">z:</label>
+                                <input type="number" name="vec-z" id="vec-z" v-model="z" @change="OnNormalChange()">
+                            </div>
                         </div>
                         <div class="settings-item">
                             <label for="constant">Offset</label>
                             <input type="range" id="constant" v-model="offset"
                                 :max="selectedPlane.max + Math.abs(selectedPlane.max / 1e2)"
                                 :min="selectedPlane.min - Math.abs(selectedPlane.min / 1e2)" :step="step" />
+                        </div>
+                        <div class="settings-item">
+                            <button @click="OnInvert(selectedPlane)">Invert</button>
                         </div>
                     </template>
                 </HeaderedGroup>
@@ -116,6 +134,12 @@ const selectedExcluded: Ref<Object3D[]> = ref([]);
 const excludeOptions = ref<Option[]>([]);
 const selected = ref<readonly Object3D[]>([]);
 const planeOptions = ref<Option[]>([]);
+const editName = ref(false);
+const planeName = ref("");
+
+const x = ref(0);
+const y = ref(0);
+const z = ref(0);
 
 const planeManager: Ref<PlaneManager | null> = ref(null);
 const fillColor: Ref<string> = ref(instance.viewer?.sceneManager.planeManager.color!);
@@ -161,8 +185,13 @@ const offset = computed({
 })
 
 function OnSelectedPlaneChange(event: Option[]) {
-    if (event.length != 0)
+    if (event.length != 0) {
         selectedPlane.value = event[0].value;
+        editName.value = false;
+        x.value = selectedPlane.value!.plane.normal.x;
+        y.value = selectedPlane.value!.plane.normal.y;
+        z.value = selectedPlane.value!.plane.normal.z;
+    }
 }
 
 function OnSelectedExcludeChange(event: Option[]) {
@@ -235,6 +264,26 @@ function SetSectionFillColor() {
     instance.viewer?.appearance.Render();
 }
 
+function OnNameEdit(event: Event) {
+    editName.value = true;
+    planeName.value = selectedPlane.value!.name;
+}
+
+function OnNameChange(event: Event) {
+    editName.value = false;
+    if (planeName.value.trim().length != 0) {
+        if (selectedPlane.value != null) {
+            (selectedPlane.value.name as any) = planeName.value;
+            UpdatePlaneOptions();
+        }
+    }
+}
+
+function OnNormalChange() {
+    selectedPlane.value?.plane.normal.set(x.value, y.value, z.value);
+    selectedPlane.value?.Update();
+}
+
 function UpdatePlaneOptions() {
     planeOptions.value = Array.from(instance.viewer!.sceneManager.planeManager.planes.values())
         .map((value) => ({ name: value.name, value: value, selected: false }));
@@ -284,5 +333,30 @@ option {
     flex-direction: row;
 }
 
-.plane-name {}
+.plane {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+}
+
+.plane-name {
+    border: none;
+    padding: 0;
+    color: var(--color-accent);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.plane-name-edit {
+    display: flex;
+    align-items: center;
+    flex: 1 1 auto;
+}
+
+.vector {
+    display: grid;
+    grid-template-columns: auto 1fr;
+}
 </style>

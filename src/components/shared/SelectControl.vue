@@ -11,7 +11,7 @@
             </option>
         </div>
     </div>
-    <div class="container" v-else>
+    <div class="container multiple" v-else>
         <div class="list" :style="`height: ${props.size != undefined ? props.size : ''}lh`">
             <option v-for="(item, index) in items" :value="item.value" :key="index" :selected="item.selected"
                 @mousedown="OnOptionChange($event, item)">
@@ -74,6 +74,10 @@ function OnOptionChange(event: MouseEvent, value: Option) {
     flex: 1 0 0;
 }
 
+.multiple {
+    overflow: auto;
+}
+
 .selected {
     justify-content: space-between;
     margin: 0;
@@ -123,6 +127,9 @@ option {
     user-select: none;
     padding: 6px 6px 5px 6px;
     line-height: 1rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 option[selected] {
