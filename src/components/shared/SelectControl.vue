@@ -87,6 +87,7 @@ function OnOptionChange(event: MouseEvent, value: Option) {
     display: none;
     position: absolute;
     left: 0;
+    z-index: 999;
 }
 
 .list {
