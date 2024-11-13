@@ -42,11 +42,12 @@ import Layout from './components/layout/Layout.vue';
 import Properties from './components/properties/Properties.vue';
 import PlaneSettings from './components/settings/planeSettings/PlaneSettings.vue';
 import ExplodeSettings from './components/settings/explodeSettings/ExplodeSettings.vue';
+import MaterialSettings from './components/settings/materialSettings/MaterialSettings.vue';
 
 const model = ref<Object3D | null>(null);
 const treeItems = ref<Object3D[]>([]);
 const viewerReady = ref(false);
-const sidebarItems: any = { Properties, ViewSettings, PlaneSettings, ExplodeSettings };
+const sidebarItems: any = { Properties, ViewSettings, PlaneSettings, ExplodeSettings, MaterialSettings };
 
 const selectedSidebarItem = ref<string>("Properties");
 

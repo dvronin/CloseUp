@@ -1,14 +1,15 @@
 <template>
     <div class="settings">
         <div class="settings-item">
-            <label for="selection-color">Selection color</label>
-            <input type="color" name="selection-color" id="selection-color" :value="selectionColor" class="no-filter"
-                @input="ChangeSelectionColor($event)">
+            <div>Selection color</div>
+            <ColorPicker name="selection-color" id="selection-color" v-model="selectionColor"
+                @input="ChangeSelectionColor($event)" />
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
+import ColorPicker from '@/components/shared/ColorPicker.vue';
 import { instance } from '../../../../instance/instance';
 import type { SelectionManager } from 'm3dv';
 import { Color } from 'three';

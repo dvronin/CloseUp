@@ -6,7 +6,7 @@
             </template>
             <template #content>
                 <div class="settings-item">
-                    <label for="clip-intersection">Clip intersection</label>
+                    <label>Clip intersection</label>
                     <BtnInputCheckbox v-model="intersection" open-icon-path="/visible.svg"
                         closed-icon-path="/hidden.svg" id="clip-intersection" />
                 </div>
@@ -16,9 +16,9 @@
                     </template>
                     <template #content>
                         <div class="settings-item">
-                            <label for="fill-color">Fill color</label>
-                            <input type="color" name="fill-color" id="fill-color" v-model="fillColor" class="no-filter"
-                                @input="ChangeSectionFillColor($event)">
+                            <div for="fill-color">Fill color</div>
+                            <ColorPicker name="fill-color" id="fill-color" v-model="fillColor"
+                                @input="ChangeSectionFillColor($event)" />
                         </div>
                         <div class="settings-item">
                             <div>Texture</div>
@@ -121,6 +121,7 @@
 <script setup lang="ts">
 import BtnInputCheckbox from '@/components/shared/BtnInputCheckbox.vue';
 import BtnInputFile from '@/components/shared/BtnInputFile.vue';
+import ColorPicker from '@/components/shared/ColorPicker.vue';
 import HeaderedGroup from '@/components/shared/HeaderedGroup.vue';
 import SelectControl, { type Option } from '@/components/shared/SelectControl.vue';
 import { instance } from '@/instance/instance';
@@ -307,12 +308,6 @@ function DeletePlane() {
 .list {
     display: flex;
     flex-direction: row;
-}
-
-.list-items {
-    flex: 1 1 auto;
-    overflow: auto;
-    background-color: var(--color-main);
 }
 
 option {
