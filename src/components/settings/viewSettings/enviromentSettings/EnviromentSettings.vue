@@ -6,9 +6,9 @@
             </template>
             <template #content>
                 <div class="settings-item">
-                    <label for="background-color">Background color</label>
-                    <input type="color" name="background-color" id="background-color" v-model="backgroundColor"
-                        class="no-filter" @input="ChangeBackgroundColor($event)">
+                    <div>Background color</div>
+                    <ColorPicker name="background-color" id="background-color" v-model="backgroundColor"
+                        @input="ChangeBackgroundColor($event)" />
                 </div>
                 <div class="settings-item">
                     <div>HDR image</div>
@@ -48,8 +48,9 @@
             </template>
             <template #content>
                 <div class="settings-item">
-                    <label for="reflection">Reflection</label>
-                    <input type="checkbox" name="reflection" id="reflection" @change="OnReflectionChange($event)">
+                    <div for="reflection">Reflection</div>
+                    <BtnToggle name="reflection" id="reflection" v-model="reflection"
+                        @change="OnReflectionChange($event)" />
                 </div>
                 <div class="settings-item">
                     <label for="background-intensity">Intensity</label>
@@ -90,6 +91,8 @@ import { Color } from 'three';
 import { onMounted, ref, type Ref } from 'vue';
 import HeaderedGroup from '../../../shared/HeaderedGroup.vue';
 import SelectControl, { type Option } from '@/components/shared/SelectControl.vue';
+import ColorPicker from '@/components/shared/ColorPicker.vue';
+import BtnToggle from '@/components/shared/BtnToggle.vue';
 
 
 const enviroment: Ref<Enviroment | null> = ref(null);
@@ -101,11 +104,14 @@ const toneMappingTypes = ref<Option[]>([
     { name: "ASEC", value: 3, selected: false },
     { name: "AgX", value: 4, selected: false },
     { name: "Neutral", value: 5, selected: false },
-])
+]);
+
+const reflection = ref(false);
 
 onMounted(() => {
     if (instance.viewer != null) {
         enviroment.value = instance.viewer.appearance.enviroment;
+        reflection.value = enviroment.value.isReflectionMapEnabled;
         const toneMapping = instance.viewer.appearance.enviroment.toneMapping;
         const index = toneMappingTypes.value.findIndex(item => item.value == toneMapping);
         if (index != -1) {

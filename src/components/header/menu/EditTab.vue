@@ -7,6 +7,10 @@
         <div>Explode</div>
         <button style="padding: 3px;" @click="instance.helper.emit(`sidebar-change`, `ExplodeSettings`)"><img
                 class="icon" src="/gear.svg" alt=""></button>
+        <div class="separator"></div>
+        <div>Materials</div>
+        <button style="padding: 3px;" @click="instance.helper.emit(`sidebar-change`, `MaterialSettings`)"><img
+                class="icon" src="/gear.svg" alt=""></button>
     </div>
 </template>
 
