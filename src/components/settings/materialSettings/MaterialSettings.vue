@@ -61,7 +61,7 @@ import ToonMaterial from './materials/ToonMaterial.vue';
 import PhongMaterial from './materials/PhongMaterial.vue';
 import StandardMaterial from './materials/StandardMaterial.vue';
 import PhysicalMaterial from './materials/PhysicalMaterial.vue';
-import { Material, MeshBasicMaterial, MeshLambertMaterial, MeshPhongMaterial, MeshPhysicalMaterial, MeshStandardMaterial, MeshToonMaterial } from 'three';
+import { Material, Mesh, MeshBasicMaterial, MeshLambertMaterial, MeshPhongMaterial, MeshPhysicalMaterial, MeshStandardMaterial, MeshToonMaterial } from 'three';
 import { instance } from '@/instance/instance';
 import type { MaterialManager } from 'm3dv';
 
@@ -99,7 +99,7 @@ function UpdateMaterialOptions() {
             value: value,
             selected: false
         }
-    });
+    }).sort((a, b) => a.name.localeCompare(b.name));
 }
 
 function OnSelectedMaterialChange(option: Option[]) {
@@ -167,8 +167,58 @@ function OnTypeChange(option: Option[]) {
         const value = option[0].value;
         if (types[value] != undefined) {
             selectedType.value = option[0].value;
+            const materials = materialManager.GetMaterials();
+            const index = materials.findIndex(item => item.uuid == selectedMaterial.value!.uuid);
+            if (index != -1)
+                CreateFromMaterial(option[0].value, materials[index]);
         }
     }
+}
+
+function CreateFromMaterial(type: string, material: Material) {
+    let newMaterial: Material;
+    if (type == "BasicMaterial") {
+        newMaterial = new MeshBasicMaterial();
+    }
+    else if (type == "ToonMaterial") {
+        newMaterial = new MeshToonMaterial();
+    }
+    else if (type == "PhongMaterial") {
+        newMaterial = new MeshPhongMaterial();
+    }
+    else if (type == "LambertMaterial") {
+        newMaterial = new MeshLambertMaterial();
+    }
+    else if (type == "StandardMaterial") {
+        newMaterial = new MeshStandardMaterial();
+    }
+    else {
+        newMaterial = new MeshPhysicalMaterial();
+    }
+
+    newMaterial.name = material.name;
+    newMaterial.clippingPlanes = material.clippingPlanes;
+
+    const sharedProps = Object.keys(newMaterial)
+        .filter(prop => !Object.keys(new Material()).includes(prop))
+        .filter(prop => Object.keys(material).includes(prop))
+        .filter(prop => prop != "defines");
+
+    sharedProps.forEach(prop => {
+        (newMaterial as any)[prop] = (material as any)[prop];
+    });
+
+    instance.viewer?.sceneManager.modelManager.materialManager.ReplaceMaterial(material, newMaterial);
+    instance.viewer?.sceneManager.modelManager.materialManager.DeleteMaterial(material);
+    instance.viewer?.sceneManager.modelManager.model.traverse(item => {
+        const mesh = item as Mesh;
+        if (mesh.isMesh != undefined && mesh.isMesh) {
+            (mesh.material as any) = instance.viewer?.sceneManager.modelManager.materialManager.GetMaterial(mesh);
+        }
+    });
+    UpdateMaterialOptions();
+    selectedMaterial.value = newMaterial;
+    instance.viewer?.appearance.Render();
 }
 
 </script>
