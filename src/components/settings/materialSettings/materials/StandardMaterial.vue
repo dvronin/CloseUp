@@ -1,9 +1,5 @@
 <template>
-    <Material :material="material" />
-    <div class="settings-item">
-        <label for="color">Color</label>
-        <ColorPicker name="color" id="color" v-model="color" @input="OnColorChange($event)" />
-    </div>
+    <ToonMaterial :material="material" />
     <div class="settings-item">
         <label for="roughness">Roughness</label>
         <input type="range" name="roughness" id="roughness" v-model="roughness" min="0" max="1" step="0.01"
@@ -18,24 +14,16 @@
 
 <script lang="ts" setup>
 import type { MeshStandardMaterial, Material as ThreeMaterial } from 'three';
-import Material from './Material.vue';
 import { ref } from 'vue';
-import ColorPicker from '@/components/shared/ColorPicker.vue';
 import { instance } from '@/instance/instance';
+import ToonMaterial from './ToonMaterial.vue';
 
 const props = defineProps<{
     material: ThreeMaterial
 }>();
 const material = ref<MeshStandardMaterial>(props.material as any);
-const color = ref<string>(`#${material.value.color.getHexString()}`);
 const roughness = ref(material.value.roughness);
 const metalness = ref(material.value.metalness);
-
-function OnColorChange(event: Event) {
-    const value = (event.target as any).value;
-    material.value.color.set(value);
-    instance.viewer?.appearance.Render();
-}
 
 function OnRoughnessChange(event: Event) {
     const value = (event.target as any).value;

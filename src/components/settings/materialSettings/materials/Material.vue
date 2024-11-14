@@ -39,6 +39,7 @@ function OnOpacityChange(event: Event) {
 function OnALphaHashChange(event: Event) {
     const value = (event.target as any).checked;
     props.material.alphaHash = value;
+    props.material.needsUpdate = true;
     instance.viewer?.appearance.Render();
 }
 

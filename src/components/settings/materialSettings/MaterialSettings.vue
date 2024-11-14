@@ -65,12 +65,12 @@ import { Material, Mesh, MeshBasicMaterial, MeshLambertMaterial, MeshPhongMateri
 import { instance } from '@/instance/instance';
 import type { MaterialManager } from 'm3dv';
 
-const types: any = { BasicMaterial, ToonMaterial, PhongMaterial, LambertMaterial, StandardMaterial, PhysicalMaterial };
+const types: any = { BasicMaterial, ToonMaterial, LambertMaterial, PhongMaterial, StandardMaterial, PhysicalMaterial };
 const typeOptions = ref<Option[]>([
     { name: "Basic", value: "BasicMaterial", selected: false },
     { name: "Toon", value: "ToonMaterial", selected: false },
-    { name: "Phong", value: "PhongMaterial", selected: false },
     { name: "Lambert", value: "LambertMaterial", selected: false },
+    { name: "Phong", value: "PhongMaterial", selected: false },
     { name: "Standard", value: "StandardMaterial", selected: false },
     { name: "Physical", value: "PhysicalMaterial", selected: false },
 ]);
