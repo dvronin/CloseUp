@@ -92,11 +92,14 @@ onMounted(() => {
 
 
 function UpdateMaterialOptions() {
-    materialOptions.value = materialManager.GetMaterials().map((value, index) => ({
-        name: value.name.trim().length != 0 ? value.name : `${value.type} ${index}`,
-        value: value,
-        selected: false
-    }));
+    materialOptions.value = materialManager.GetMaterials().map((value, index) => {
+        value.name = value.name.trim().length != 0 ? value.name.trim() : `${value.type} ${index}`
+        return {
+            name: value.name,
+            value: value,
+            selected: false
+        }
+    });
 }
 
 function OnSelectedMaterialChange(option: Option[]) {
@@ -119,7 +122,7 @@ function OnNameChange(event: Event) {
     editName.value = false;
     if (materialName.value.trim().length != 0) {
         if (selectedMaterial.value != null) {
-            selectedMaterial.value.name = materialName.value;
+            selectedMaterial.value.name = materialName.value.trim();
             UpdateMaterialOptions();
         }
     }

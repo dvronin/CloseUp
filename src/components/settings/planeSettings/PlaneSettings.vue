@@ -148,6 +148,9 @@ const fillColor: Ref<string> = ref(instance.viewer?.sceneManager.planeManager.co
 onMounted(() => {
     planeManager.value = instance.viewer!.sceneManager.planeManager;
     UpdatePlaneOptions();
+    const included = instance.viewer!.sceneManager.planeManager.included;
+    const items = getModelArray().filter(item => !included.includes(item));
+    UpdateExcludeOptions(items);
     selected.value = instance.viewer!.selectionManager.target;
     instance.viewer!.addListener("loaded", () => {
         UpdatePlaneOptions();
