@@ -12,10 +12,13 @@
                             <SelectControl :multiple="false" :size="8" :items="materialOptions"
                                 @change="OnSelectedMaterialChange($event)" />
                             <div class="controls">
-                                <button @click="console.log('Add')"><img class="icon" src="/plus.svg"
+                                <button @click="AddMaterial()"><img class="icon" src="/plus.svg"
                                         alt="Add plane"></button>
-                                <button :disabled="selectedMaterial == null" @click="console.log('Delete')"><img
-                                        class="icon" src="/minus.svg" alt="Remove plane"></button>
+                                <button :disabled="selectedMaterial == null || selectedObjects.length == 0"
+                                    @click="SetMaterial()"><img class="icon" src="/bucket.svg"
+                                        alt="Set material for selected"></button>
+                                <button :disabled="selectedMaterial == null" @click="DeleteMaterial()"><img class="icon"
+                                        src="/minus.svg" alt="Remove plane"></button>
                             </div>
                         </div>
                     </template>
@@ -61,7 +64,7 @@ import ToonMaterial from './materials/ToonMaterial.vue';
 import PhongMaterial from './materials/PhongMaterial.vue';
 import StandardMaterial from './materials/StandardMaterial.vue';
 import PhysicalMaterial from './materials/PhysicalMaterial.vue';
-import { Material, Mesh, MeshBasicMaterial, MeshLambertMaterial, MeshPhongMaterial, MeshPhysicalMaterial, MeshStandardMaterial, MeshToonMaterial } from 'three';
+import { Material, Mesh, MeshBasicMaterial, MeshLambertMaterial, MeshPhongMaterial, MeshPhysicalMaterial, MeshStandardMaterial, MeshToonMaterial, Object3D } from 'three';
 import { instance } from '@/instance/instance';
 import type { MaterialManager } from 'm3dv';
 
@@ -83,13 +86,45 @@ const selectedMaterial = ref<Material | null>(null);
 const editName = ref(false);
 const materialName = ref("");
 
+const selectedObjects = ref<readonly Object3D[]>(instance.viewer!.selectionManager.target);
+
 onMounted(() => {
     UpdateMaterialOptions();
     instance.viewer!.addListener("loaded", () => {
         UpdateMaterialOptions();
     });
+    instance.viewer?.selectionManager.addListener("change", () => {
+        selectedObjects.value = instance.viewer!.selectionManager.target;
+    })
 })
 
+function AddMaterial() {
+    const material = new MeshStandardMaterial({ name: "New material" });
+    instance.viewer?.sceneManager.modelManager.materialManager.AddMaterial(material);
+    UpdateMaterialOptions();
+}
+
+function SetMaterial() {
+    const materials = materialManager.GetMaterials();
+    const index = materials.findIndex(item => item.uuid == selectedMaterial.value!.uuid);
+    if (index != -1) {
+        instance.viewer!.selectionManager.target.forEach(object => object.traverse(item => {
+            const mesh = item as Mesh;
+            if (mesh.isMesh != undefined && mesh.isMesh == true) {
+                instance.viewer?.sceneManager.modelManager.materialManager.SetMaterial(mesh, materials[index]);
+            }
+        }));
+    }
+}
+
+function DeleteMaterial() {
+    const materials = materialManager.GetMaterials();
+    const index = materials.findIndex(item => item.uuid == selectedMaterial.value!.uuid);
+    if (index != -1) {
+        instance.viewer?.sceneManager.modelManager.materialManager.DeleteMaterial(materials[index]);
+        UpdateMaterialOptions();
+    }
+}
 
 function UpdateMaterialOptions() {
     materialOptions.value = materialManager.GetMaterials().map((value, index) => {

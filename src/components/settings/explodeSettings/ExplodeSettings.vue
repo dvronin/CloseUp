@@ -29,7 +29,7 @@ import HeaderedGroup from '@/components/shared/HeaderedGroup.vue';
 import SelectControl, { type Option } from '@/components/shared/SelectControl.vue';
 import { instance } from '@/instance/instance';
 import { ExplodeType } from 'm3dv';
-import { computed, onMounted, ref, type Ref } from 'vue';
+import { onMounted, ref } from 'vue';
 
 const power = ref(3);
 const value = ref(0);
@@ -40,16 +40,16 @@ const types = ref<Option[]>([
 const explodeType = ref(ExplodeType.simple);
 
 onMounted(() => {
-    explodeType.value = instance.viewer!.explodeView.type;
+    explodeType.value = instance.viewer!.sceneManager.explodeView.type;
 })
 
 function Explode(value: number) {
-    instance.viewer?.explodeView.Explode(value, power.value);
+    instance.viewer?.sceneManager.explodeView.Explode(value, power.value);
     instance.viewer?.appearance.Render();
 }
 
 function OnExplodeTypeChange(option: Option[]) {
-    instance.viewer?.explodeView.InitExplode(instance.viewer.sceneManager.modelManager.model, option[0].value);
+    instance.viewer?.sceneManager.explodeView.InitExplode(instance.viewer.sceneManager.modelManager.model, option[0].value);
 }
 
 </script>
