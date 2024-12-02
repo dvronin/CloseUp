@@ -11,7 +11,13 @@
                     </summary>
                     <div>Type: {{ item.type }}</div>
                     <div v-if="item.children.length != 0">Children: {{ item.children.length }}</div>
-                    <div>Volume: {{ }}</div>
+                    <div v-if="IsMesh(item)" class="material">
+                        <div>Material:</div>
+                        <ColorPicker :hide-hex="true" :readonly="true" :model-value="GetMaterialColor(item)" />
+                        <div>{{ GetMaterialName(item) }}</div>
+                    </div>
+                    <div>Area: {{ areas.get(item)?.toFixed(6) }}</div>
+                    <div>Volume: {{ volumes.get(item)?.toFixed(6) }} </div>
                 </details>
             </template>
         </HeaderedGroup>
@@ -44,9 +50,10 @@
 
 <script setup lang="ts">
 import { instance } from '@/instance/instance';
-import type { Object3D, WebGLRenderer } from 'three';
+import type { Color, Material, Mesh, Object3D, WebGLRenderer } from 'three';
 import { onMounted, ref } from 'vue';
 import HeaderedGroup from '../shared/HeaderedGroup.vue';
+import ColorPicker from '../shared/ColorPicker.vue';
 
 const selectedItems = ref<Object3D[]>(Array.from(instance.viewer!.selectionManager.target));
 const geometries = ref((instance.viewer!.renderer as WebGLRenderer).info.memory.geometries);
@@ -55,6 +62,9 @@ const calls = ref((instance.viewer!.renderer as WebGLRenderer).info.render.calls
 const triangles = ref((instance.viewer!.renderer as WebGLRenderer).info.render.triangles);
 const lines = ref((instance.viewer!.renderer as WebGLRenderer).info.render.lines);
 const points = ref((instance.viewer!.renderer as WebGLRenderer).info.render.points);
+
+const areas = ref<Map<Object3D, number>>(new Map());
+const volumes = ref<Map<Object3D, number>>(new Map());
 
 onMounted(() => {
     instance.viewer?.selectionManager.addListener("change", OnSelectionChange);
@@ -77,6 +87,9 @@ onMounted(() => {
 function OnSelectionChange(items: Set<Object3D>) {
     selectedItems.value.length = 0;
     selectedItems.value = Array.from(items);
+    const keys = Array.from(areas.value.keys());
+    const array = selectedItems.value.filter(item => !keys.includes(item));
+    array.forEach(item => OnCompute(item));
 }
 
 function GetName(object: Object3D) {
@@ -85,6 +98,69 @@ function GetName(object: Object3D) {
         return object.type;
     }
     return name;
+}
+
+function IsMesh(object: Object3D): boolean {
+    return object.type == "Mesh" ? true : false;
+}
+
+function GetMaterial(object: Object3D): Material | null {
+    const selected = instance.viewer!.selectionManager.target;
+    const index = selected.findIndex(item => item.uuid == object.uuid);
+    if (index != -1) {
+        const mesh = selected[index] as Mesh;
+        if (mesh.isMesh != undefined && mesh.isMesh == true) {
+            return instance.viewer!.sceneManager.modelManager.materialManager.GetMaterial(mesh);
+        }
+    }
+    return null;
+}
+function GetMaterialName(object: Object3D): string {
+    const mat = GetMaterial(object);
+    if (mat != null) {
+        return mat.name.trim().length != 0 ? mat.name.trim() : `${mat.type}`
+    }
+    return "not found";
+}
+function GetMaterialColor(object: Object3D) {
+    const mat = GetMaterial(object);
+    if (mat != null) {
+        const color = (mat as any).color as Color;
+        if (color != undefined && color.isColor == true) {
+            return `#${color.getHexString()}`;
+        }
+    }
+    return "#000";
+}
+
+function OnCompute(object: Object3D) {
+    let _area = 0;
+    let _volume = 0;
+
+    if (window.Worker) {
+        const workerUrl = new URL("../../workers/computeWorker", import.meta.url);
+
+        const worker = new Worker(workerUrl, { type: "module" });
+        worker.onerror = (e) => {
+            console.log(e);
+            worker.terminate();
+        }
+        worker.onmessageerror = (e) => {
+            console.log(e);
+            worker.terminate();
+        }
+        worker.onmessage = (e) => {
+            worker.terminate();
+            areas.value.set(object, e.data.area);
+            volumes.value.set(object, e.data.volume);
+        }
+        const json = object.toJSON();
+        const obj = JSON.stringify(json);
+        worker.postMessage(obj);
+
+        areas.value.set(object, _area);
+        volumes.value.set(object, _volume);
+    }
 }
 
 </script>
@@ -105,5 +181,9 @@ function GetName(object: Object3D) {
 summary {
     display: flex;
     overflow-x: hidden;
+}
+
+.material {
+    display: flex;
 }
 </style>
