@@ -66,6 +66,8 @@ const points = ref((instance.viewer!.renderer as WebGLRenderer).info.render.poin
 const areas = ref<Map<Object3D, number>>(new Map());
 const volumes = ref<Map<Object3D, number>>(new Map());
 
+selectedItems.value.forEach(item => OnCompute(item));
+
 onMounted(() => {
     instance.viewer?.selectionManager.addListener("change", OnSelectionChange);
     instance.viewer?.addListener("loaded", () => {
