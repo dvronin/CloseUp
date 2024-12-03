@@ -2,7 +2,7 @@
     <div class="color">
         <label v-if="hideHex == false" :for="props.id">{{ model }}</label>
         <div class="button" :class="props.readonly == true ? 'readonly' : ''">
-            <label class="no-filter" :style="`background:${model}`" :title="props.title" :id="props.id">
+            <label class="theme" :style="`background:${model}`" :title="props.title" :id="props.id">
                 <input type="color" v-model="model" :id="props.id" :readonly="props.readonly" :disabled="props.readonly"
                     @change="emits('change', $event)" @input="emits('input', $event)">
             </label>

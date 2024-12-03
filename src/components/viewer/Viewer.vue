@@ -1,6 +1,6 @@
 <template>
     <div class="viewer">
-        <canvas id="canvas" ref="canvas" />
+        <canvas class="theme" id="canvas" ref="canvas" />
     </div>
 </template>
 

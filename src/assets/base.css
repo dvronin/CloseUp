@@ -5,14 +5,12 @@
   --color-border: #d0d0d0;
 }
 
+canvas {
+  filter: none;
+}
 
-@media (prefers-color-scheme: dark) {
-
-  body,
-  canvas,
-  .no-filter {
-    filter: invert(1);
-  }
+.theme {
+  filter: none;
 }
 
 *,
