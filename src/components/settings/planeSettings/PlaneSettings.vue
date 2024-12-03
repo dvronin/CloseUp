@@ -113,6 +113,18 @@
                         </div>
                     </template>
                 </HeaderedGroup>
+                <HeaderedGroup v-if="selectedPlane != null">
+                    <template #header>
+                        <div>Helper:{{ selectedPlane.name }}</div>
+                    </template>
+                    <template #content>
+                        <div class="settings-item">
+                            <label for="helper-visibility">Visibility</label>
+                            <BtnInputCheckbox v-model="helperVisibility" open-icon-path="/visible.svg"
+                                closed-icon-path="/hidden.svg" id="helper-visibility" />
+                        </div>
+                    </template>
+                </HeaderedGroup>
             </template>
         </HeaderedGroup>
     </div>
@@ -165,6 +177,13 @@ const visibility = computed({
     get: () => selectedPlane.value?.visible,
     set: (value: boolean) => {
         selectedPlane.value?.SetVisibility(value);
+        instance.viewer?.appearance.Render();
+    }
+});
+const helperVisibility = computed({
+    get: () => selectedPlane.value?.showHelper,
+    set: (value: boolean) => {
+        selectedPlane.value?.ShowHelper(value);
         instance.viewer?.appearance.Render();
     }
 });

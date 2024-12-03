@@ -3,6 +3,7 @@
         <BtnInputCheckbox v-model="wireframe" open-icon-path="/visible.svg" closed-icon-path="/visible.svg" />
         <BtnInputCheckbox v-model="cameraType" open-icon-path="/visible.svg" closed-icon-path="/visible.svg" />
         <BtnInputCheckbox v-model="controlsType" open-icon-path="/visible.svg" closed-icon-path="/visible.svg" />
+        <BtnInputCheckbox v-model="axesVisibility" open-icon-path="/visible.svg" closed-icon-path="/visible.svg" />
         <div class="separator"></div>
         <div>Enviroment</div>
         <button @click="instance.helper.emit(`sidebar-change`, `ViewSettings`)"><img class="icon" src="/gear.svg"
@@ -42,10 +43,17 @@ const controlsType = computed({
         instance.viewer!.controls.SetCameraControl(value == true ? ControlsType.orbit : ControlsType.trackball);
         instance.viewer?.appearance.Render();
     }
-})
+});
 
+const axesHelper = instance.viewer!.sceneManager.scene.getObjectByProperty("type", "AxesHelper");
 
-
+const axesVisibility = computed({
+    get: (): boolean => { return axesHelper!.visible; },
+    set: (value: boolean) => {
+        axesHelper!.visible = value;
+        instance.viewer?.appearance.Render();
+    }
+});
 
 </script>
 
