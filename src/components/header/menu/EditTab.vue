@@ -5,20 +5,26 @@
                 alt=""></button>
         <div class="separator"></div>
         <div>Explode</div>
-        <button style="padding: 3px;" @click="instance.helper.emit(`sidebar-change`, `ExplodeSettings`)"><img
-                class="icon" src="/gear.svg" alt=""></button>
+        <button @click="instance.helper.emit(`sidebar-change`, `ExplodeSettings`)"><img class="icon" src="/gear.svg"
+                alt=""></button>
         <div class="separator"></div>
         <div>Materials</div>
-        <button style="padding: 3px;" @click="instance.helper.emit(`sidebar-change`, `MaterialSettings`)"><img
-                class="icon" src="/gear.svg" alt=""></button>
+        <button @click="instance.helper.emit(`sidebar-change`, `MaterialSettings`)"><img class="icon" src="/gear.svg"
+                alt=""></button>
+        <div class="separator"></div>
+        <div>Preferences</div>
+        <button @click="instance.helper.emit(`sidebar-change`, `AppSettings`)"><img class="icon" src="/gear.svg"
+                alt=""></button>
     </div>
 </template>
 
 <script setup lang="ts">
 import { instance } from '../../../instance/instance';
-import BtnInputFile from '../../../components/shared/BtnInputFile.vue';
-
 
 </script>
 
-<style scoped></style>
+<style scoped>
+button {
+    padding: 3px;
+}
+</style>

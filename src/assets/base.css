@@ -5,14 +5,12 @@
   --color-border: #d0d0d0;
 }
 
+canvas {
+  filter: none;
+}
 
-@media (prefers-color-scheme: dark) {
-
-  body,
-  canvas,
-  .no-filter {
-    filter: invert(1);
-  }
+.theme {
+  filter: none;
 }
 
 *,
@@ -24,6 +22,9 @@
   font-family: monospace;
   font-size: large;
   user-select: none;
+  scrollbar-width: thin;
+  scroll-behavior: smooth;
+  scrollbar-color: var(--color-accent) var(--color-main);
 }
 
 body {
