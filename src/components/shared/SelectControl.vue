@@ -85,6 +85,7 @@ function OnOptionChange(event: MouseEvent, value: Option) {
     width: 100%;
     line-height: 1rem;
     min-height: 1rem;
+    color: var(--color-text);
 }
 
 .context {
