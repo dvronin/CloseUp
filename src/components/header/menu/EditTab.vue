@@ -23,8 +23,4 @@ import { instance } from '../../../instance/instance';
 
 </script>
 
-<style scoped>
-button {
-    padding: 3px;
-}
-</style>
+<style scoped></style>
