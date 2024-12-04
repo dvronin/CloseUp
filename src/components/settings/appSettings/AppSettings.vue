@@ -64,6 +64,7 @@ const themes: Option[] = [
     { name: "Default", value: "Default", selected: false },
     { name: "Blue/Yellow", value: "Blue/Yellow", selected: false },
     { name: "Amethyst/Matrix", value: "Amethyst/Matrix", selected: false },
+    { name: "Turquoise/Cyber", value: "Turquoise/Cyber", selected: false },
     { name: "Orange/Cadet", value: "Orange/Cadet", selected: false },
 ]
 
@@ -140,6 +141,12 @@ function SetTheme(type: string) {
             OnColorChange('--color-text', "#ff00d0");
             OnColorChange('--color-accent', "#8858ad");
             OnColorChange('--color-border', "#f5b4fe");
+            break;
+        case 'Turquoise/Cyber':
+            OnColorChange('--color-main', "#f1fef7");
+            OnColorChange('--color-text', "#009e84");
+            OnColorChange('--color-accent', "#75bdb7");
+            OnColorChange('--color-border', "#9ce3d5");
             break;
         case 'Orange/Cadet':
             OnColorChange('--color-main', "#ff5c5c");
