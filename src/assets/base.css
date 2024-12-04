@@ -22,6 +22,9 @@ canvas {
   font-family: monospace;
   font-size: large;
   user-select: none;
+  scrollbar-width: thin;
+  scroll-behavior: smooth;
+  scrollbar-color: var(--color-accent) var(--color-main);
 }
 
 body {
