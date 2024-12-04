@@ -11,9 +11,14 @@
                     </template>
                     <template #content>
                         <div class="settings-item">
-                            <label for="explode-value">Light</label>
-                            <BtnToggle v-model="useDarkTheme" @change="OnChangeTheme(useDarkTheme)" />
-                            <label for="explode-value">Dark</label>
+                            <label for="theme-select">Load theme</label>
+                            <SelectControl id="theme-select" :items="themes" :multiple="false"
+                                @change="OnThemeSelect($event)" />
+                        </div>
+                        <div class="settings-item">
+                            <label for="dark-theme">Light</label>
+                            <BtnToggle id="dark-theme" v-model="useDarkTheme" @change="OnChangeTheme(useDarkTheme)" />
+                            <label for="dark-theme">Dark</label>
                         </div>
                         <div class="settings-item">
                             <label for="main-color">Main color</label>
@@ -53,6 +58,14 @@ import { instance } from '@/instance/instance';
 import { onMounted, ref } from 'vue';
 import { ChangeTheme, SetColor } from './settings';
 import ColorPicker from '@/components/shared/ColorPicker.vue';
+
+const themes: Option[] = [
+    { name: "", value: "", selected: true },
+    { name: "Default", value: "Default", selected: false },
+    { name: "Blue/Yellow", value: "Blue/Yellow", selected: false },
+    { name: "Amethyst/Matrix", value: "Amethyst/Matrix", selected: false },
+    { name: "Orange/Cadet", value: "Orange/Cadet", selected: false },
+]
 
 const useDarkTheme = ref<boolean>(instance.settings.useDarkTheme);
 const mainColor = ref<string>(instance.settings.themeColours.main);
@@ -100,10 +113,43 @@ function SaveSettings() {
 }
 
 function ResetColours() {
-    OnColorChange('--color-main', "#eeeeee");
-    OnColorChange('--color-text', "#111111");
-    OnColorChange('--color-accent', "#118bfe");
-    OnColorChange('--color-border', "#d0d0d0");
+    SetTheme('Default');
+}
+
+function OnThemeSelect(options: Option[]) {
+    const value = options[0].value;
+    SetTheme(value);
+}
+
+function SetTheme(type: string) {
+    switch (type) {
+        case 'Default':
+            OnColorChange('--color-main', "#eeeeee");
+            OnColorChange('--color-text', "#111111");
+            OnColorChange('--color-accent', "#118bfe");
+            OnColorChange('--color-border', "#d0d0d0");
+            break;
+        case 'Blue/Yellow':
+            OnColorChange('--color-main', "#e3e3e3");
+            OnColorChange('--color-text', "#002b8f");
+            OnColorChange('--color-accent', "#7a83ff");
+            OnColorChange('--color-border', "#c7c7c7");
+            break;
+        case 'Amethyst/Matrix':
+            OnColorChange('--color-main', "#f0f0f0");
+            OnColorChange('--color-text', "#ff00d0");
+            OnColorChange('--color-accent', "#8858ad");
+            OnColorChange('--color-border', "#f5b4fe");
+            break;
+        case 'Orange/Cadet':
+            OnColorChange('--color-main', "#ff5c5c");
+            OnColorChange('--color-text', "#ffffff");
+            OnColorChange('--color-accent', "#ff0000");
+            OnColorChange('--color-border', "#ff8a8a");
+            break;
+        default:
+            break;
+    }
     SaveSettings();
 }
 
