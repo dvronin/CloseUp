@@ -1,16 +1,19 @@
 <template>
-    <div class="element container">
+    <div class="element container" ref="header">
         <div class="header">
             <div>CloseUp 3D viewer powered by <a target="_blank" href="https://github.com/123Wampir/m3dv">m3dv</a></div>
             <div class="file-name">{{ modelName }}</div>
             <nav class="links">
-                <a target="_blank" href="https://github.com/123Wampir/CloseUp">
+                <a target="_blank" @click="OpenHelp()" title="help">
+                    <img class="icon" src="/help.svg" alt="github">
+                </a>
+                <a target="_blank" href="https://github.com/123Wampir/CloseUp" title="CloseUp git repo">
                     <img class="icon" src="/favicon.svg" alt="github">
                 </a>
-                <a target="_blank" href="https://github.com/123Wampir">
+                <a target="_blank" href="https://github.com/123Wampir" title="git profile">
                     <img class="icon" src="/github-mark.svg" alt="github">
                 </a>
-                <a target="_blank" href="https://vk.com/dv.ronin">
+                <a target="_blank" href="https://vk.com/dv.ronin" title="vk profile">
                     <img class="icon" src="/VK Logo Black & White.svg" alt="vk">
                 </a>
             </nav>
@@ -26,25 +29,43 @@
                 <EditTab />
             </TabItem>
         </TabControl>
+        <Help ref="help" />
     </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, type Ref } from 'vue';
+import { onMounted, ref, useTemplateRef, type Ref } from 'vue';
 import HomeTab from './menu/HomeTab.vue';
 import { instance } from '../../instance/instance';
 import TabControl from '../shared/TabControl.vue';
 import TabItem from '../shared/TabItem.vue';
 import ViewTab from './menu/ViewTab.vue';
 import EditTab from './menu/EditTab.vue';
+import Help from './help/Help.vue';
 
 const modelName: Ref<string> = ref("model_name");
+const header = useTemplateRef('header');
+
 
 onMounted(() => {
+    console.log(header.value);
+
     instance.viewer?.addListener("loaded", () => {
         modelName.value = instance.viewer!.sceneManager.modelManager.model.children[0].name;
     });
 })
+
+function OpenHelp() {
+
+    if (header.value != null) {
+        const dialog = header.value.querySelector("dialog");
+        console.log(dialog);
+
+        if (dialog != null) {
+            dialog.showModal();
+        }
+    }
+}
 
 </script>
 
@@ -89,6 +110,10 @@ onMounted(() => {
 
 :deep(.actions>*) {
     margin: 1px;
+}
+
+a:hover {
+    cursor: pointer;
 }
 
 :deep(.actions>.separator) {
