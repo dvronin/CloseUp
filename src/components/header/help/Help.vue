@@ -13,6 +13,8 @@
                         <div class="grid-list content">
                             <div>Fit in view (full model/selected parts)</div>
                             <div class="shortcut"><kbd>F</kbd></div>
+                            <div>Select/Unselect multiple objects</div>
+                            <div class="shortcut"><kbd>Shift</kbd></div>
                             <div>Select all</div>
                             <div class="shortcut"><kbd>Ctrl</kbd> + <kbd>A</kbd></div>
                             <div>Unselect all</div>
