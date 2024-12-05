@@ -1,5 +1,5 @@
 {
-  "name": "cadview",
+  "name": "closeup",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "build-only": "vite build",
     "type-check": "vue-tsc --build --force",
+    "dev-electron": "electron ./src/electron.js",
     "size": "npm run build && size-limit"
   },
   "dependencies": {
@@ -23,6 +24,7 @@
     "@types/node": "^20.16.11",
     "@vitejs/plugin-vue": "^5.1.4",
     "@vue/tsconfig": "^0.5.1",
+    "electron": "^33.2.1",
     "npm-run-all2": "^6.2.3",
     "size-limit": "^11.1.6",
     "typescript": "~5.5.4",
