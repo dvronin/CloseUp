@@ -140,9 +140,8 @@ function OnCompute(object: Object3D) {
     let _volume = 0;
 
     if (window.Worker) {
-        const workerUrl = new URL("../../workers/computeWorker", import.meta.url);
 
-        const worker = new Worker(workerUrl, { type: "module" });
+        const worker = new Worker(new URL("../../workers/computeWorker", import.meta.url), { type: "module" });
         worker.onerror = (e) => {
             console.log(e);
             worker.terminate();
