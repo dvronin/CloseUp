@@ -1,0 +1,22 @@
+{
+    "include": [
+        // "env.d.ts",
+        "./src/electron/*.mts",
+        "./src/electron/*.ts",
+    ],
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@/*": [
+                "./src/*"
+            ]
+        },
+        "moduleResolution": "bundler",
+        "module": "ESNext",
+        "target": "ES2017",
+        "allowSyntheticDefaultImports": true,
+        "outDir": "./dist/electron",
+        "rootDir": "./src/electron",
+        "listEmittedFiles": true,
+    },
+}

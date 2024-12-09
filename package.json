@@ -9,7 +9,9 @@
     "preview": "vite preview",
     "build-only": "vite build",
     "type-check": "vue-tsc --build --force",
-    "dev-electron": "electron ./src/electron.js",
+    "compile-electron": "tsc --project tsconfig.electron.json",
+    "electron": "npm run build && npm run compile-electron && electron ./dist/electron/electron.js",
+    "dev-electron": "electron ./dist/electron/electron.js",
     "size": "npm run build && size-limit"
   },
   "dependencies": {
