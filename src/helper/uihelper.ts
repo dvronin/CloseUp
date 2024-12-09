@@ -12,4 +12,13 @@ export class UIHelper extends EventEmitter {
     override emit(event: "sidebar-change", ...any: any): void {
         super.emit(event, ...any);
     }
-} 
+
+    isDesktopApp() {
+        console.log(navigator.userAgent.toString());
+        if (navigator.userAgent.indexOf('Electron') >= 0) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+}
