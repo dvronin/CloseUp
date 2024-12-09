@@ -4,8 +4,8 @@
             <summary class="item">
                 <div class="name" :title="name">{{ name }}</div>
                 <div class="actions">
-                    <BtnInputCheckbox v-model="visibility" title="Show/Hide" open-icon-path="/visible.svg"
-                        closed-icon-path="/hidden.svg" />
+                    <BtnInputCheckbox v-model="visibility" title="Show/Hide" :open-icon-path="visibleSvg"
+                        :closed-icon-path="hiddenSvg" />
                     <button title="Select" @click="Select(model)">
                         <img class="icon" src="/lens.svg" alt="Select">
                     </button>
@@ -23,8 +23,8 @@
             <div class="item">
                 <div class="name" :title="name">{{ name }}</div>
                 <div class="actions">
-                    <BtnInputCheckbox v-model="visibility" title="Show/Hide" open-icon-path="/visible.svg"
-                        closed-icon-path="/hidden.svg" />
+                    <BtnInputCheckbox v-model="visibility" title="Show/Hide" :open-icon-path="visibleSvg"
+                        :closed-icon-path="hiddenSvg" />
                     <button title="Show" @click="Select(props.model)">
                         <img class="icon" src="/lens.svg" alt="Select">
                     </button>
@@ -46,6 +46,8 @@ import { instance } from '../../instance/instance';
 import { Object3D } from 'three';
 import BtnInputCheckbox from '../shared/BtnInputCheckbox.vue';
 import { computed } from 'vue';
+import visibleSvg from '/visible.svg'
+import hiddenSvg from '/hidden.svg'
 
 const props = defineProps<{
     model: Object3D
