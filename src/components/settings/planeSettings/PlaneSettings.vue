@@ -7,8 +7,7 @@
             <template #content>
                 <div class="settings-item">
                     <label>Clip intersection</label>
-                    <BtnInputCheckbox v-model="intersection" open-icon-path="/visible.svg"
-                        closed-icon-path="/hidden.svg" id="clip-intersection" />
+                    <BtnToggle v-model="intersection" id="clip-intersection" />
                 </div>
                 <HeaderedGroup>
                     <template #header>
@@ -88,8 +87,7 @@
                     <template #content>
                         <div class="settings-item">
                             <label for="visibility">Visibility</label>
-                            <BtnInputCheckbox v-model="visibility" open-icon-path="/visible.svg"
-                                closed-icon-path="/hidden.svg" id="visibility" />
+                            <BtnToggle v-model="visibility" id="visibility" />
                         </div>
                         <div class="settings-item">
                             <div>Normal</div>
@@ -120,8 +118,7 @@
                     <template #content>
                         <div class="settings-item">
                             <label for="helper-visibility">Visibility</label>
-                            <BtnInputCheckbox v-model="helperVisibility" open-icon-path="/visible.svg"
-                                closed-icon-path="/hidden.svg" id="helper-visibility" />
+                            <BtnToggle v-model="helperVisibility" id="helper-visibility" />
                         </div>
                     </template>
                 </HeaderedGroup>
@@ -131,7 +128,7 @@
 </template>
 
 <script setup lang="ts">
-import BtnInputCheckbox from '@/components/shared/BtnInputCheckbox.vue';
+import BtnToggle from '@/components/shared/BtnToggle.vue';
 import BtnInputFile from '@/components/shared/BtnInputFile.vue';
 import ColorPicker from '@/components/shared/ColorPicker.vue';
 import HeaderedGroup from '@/components/shared/HeaderedGroup.vue';

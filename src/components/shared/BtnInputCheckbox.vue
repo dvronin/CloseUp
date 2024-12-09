@@ -1,12 +1,14 @@
 <template>
     <label class="button" :title="title">
-        <img v-if="model" class="icon" :src="props.openIconPath" alt="Hide">
+        <img v-if="visible" class="icon" :src="props.openIconPath" alt="Hide">
         <img v-else class="icon" :src="props.closedIconPath" alt="Show">
-        <input type="checkbox" v-model="model" :id="id">
+        <input type="checkbox" v-model="model" @change="OnValueChange($event)" :id="id">
     </label>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue';
+
 const props = defineProps<{
     title?: string,
     openIconPath: string,
@@ -14,6 +16,12 @@ const props = defineProps<{
     id?: string
 }>();
 const model = defineModel();
+const visible = ref(model.value);
+
+function OnValueChange(event: Event) {
+    const value = (event.target as any).checked;
+    visible.value = value;
+}
 
 </script>
 

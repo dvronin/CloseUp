@@ -1,9 +1,13 @@
 <template>
     <div class="actions">
-        <BtnInputCheckbox v-model="wireframe" open-icon-path="/visible.svg" closed-icon-path="/visible.svg" />
-        <BtnInputCheckbox v-model="cameraType" open-icon-path="/visible.svg" closed-icon-path="/visible.svg" />
-        <BtnInputCheckbox v-model="controlsType" open-icon-path="/visible.svg" closed-icon-path="/visible.svg" />
-        <BtnInputCheckbox v-model="axesVisibility" open-icon-path="/visible.svg" closed-icon-path="/visible.svg" />
+        <BtnInputCheckbox v-model="wireframe" title="Show\Hide wireframe" :open-icon-path="visibleSvg"
+            :closed-icon-path="hiddenSvg" />
+        <BtnInputCheckbox v-model="cameraType" title="Perspective\Orthographic camera" :open-icon-path="visibleSvg"
+            :closed-icon-path="hiddenSvg" />
+        <BtnInputCheckbox v-model="controlsType" title="Orbit\Trackball controls" :open-icon-path="visibleSvg"
+            :closed-icon-path="hiddenSvg" />
+        <BtnInputCheckbox v-model="axesVisibility" title="Show\Hide axes helper" :open-icon-path="visibleSvg"
+            :closed-icon-path="hiddenSvg" />
         <div class="separator"></div>
         <div>Enviroment</div>
         <button @click="instance.helper.emit(`sidebar-change`, `ViewSettings`)"><img class="icon" src="/gear.svg"
@@ -20,6 +24,8 @@ import { instance } from '../../../instance/instance';
 import BtnInputCheckbox from '../../../components/shared/BtnInputCheckbox.vue';
 import { computed } from 'vue';
 import { CameraType, ControlsType } from 'm3dv';
+import visibleSvg from '/visible.svg'
+import hiddenSvg from '/hidden.svg'
 
 const wireframe = computed({
     get: (): boolean => { return instance.viewer!.appearance.wireframe; },
