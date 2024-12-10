@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, shell } from "electron";
+import { app, BrowserWindow, ipcMain, nativeImage, shell } from "electron";
 import path from "path";
 import url from "url";
 
@@ -9,7 +9,7 @@ const createWindow = () => {
         minWidth: 450,
         minHeight: 400,
         title: "CloseUp 3D viewer",
-        icon: "favicon.svg",
+        icon: nativeImage.createFromPath(path.join(import.meta.dirname, "../favicon.png")),
         titleBarStyle: 'hidden',
         webPreferences: {
             nodeIntegration: true,
@@ -25,7 +25,7 @@ const createWindow = () => {
 
     window.loadURL(
         url.format({
-            pathname: "./dist/index.html",
+            pathname: path.join(import.meta.dirname, "../index.html"),
             protocol: "file:",
             slashes: true
         })
