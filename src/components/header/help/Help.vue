@@ -41,7 +41,10 @@
                             texture manager, recreate my old animation <a target="_blank"
                                 href="https://github.com/123Wampir/CADAnimation">app</a>, ray-tracing and more and
                             more).<br>
-                            Stay tuned <span class="theme">🌵🌵🌵</span>
+                            Stay tuned <span class="theme">🌵🌵🌵</span><br>
+                            <img style="margin: 0 25%;" class="theme" src="/favicon.svg" alt="">
+                            <div style="text-align: center;">CloseUp</div>
+
                         </div>
                     </details>
                 </template>

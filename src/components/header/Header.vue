@@ -2,8 +2,7 @@
     <div class="element container" ref="header">
         <div class="header">
             <div class="drag-area">
-                <div>CloseUp 3D viewer powered by <a target="_blank" href="https://github.com/123Wampir/m3dv">m3dv</a>
-                </div>
+                <div>CloseUp 3D viewer</div>
                 <div class="file-name">{{ modelName }}</div>
             </div>
             <nav class="links">
@@ -123,6 +122,7 @@ function OpenHelp() {
     display: flex;
     flex-direction: row;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 :deep(.actions>*) {
