@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from "electron";
+import { app, BrowserWindow, ipcMain, shell } from "electron";
 import path from "path";
 import url from "url";
 
@@ -6,12 +6,21 @@ const createWindow = () => {
     const window = new BrowserWindow({
         width: 800,
         height: 600,
+        minWidth: 450,
+        minHeight: 400,
+        title: "CloseUp 3D viewer",
+        icon: "favicon.svg",
         titleBarStyle: 'hidden',
         webPreferences: {
             nodeIntegration: true,
             nodeIntegrationInWorker: true,
             preload: path.join(import.meta.dirname, "preload.mjs")
-        }
+        },
+    });
+
+    window.webContents.setWindowOpenHandler((details) => {
+        shell.openExternal(details.url);
+        return { action: 'deny' };
     });
 
     window.loadURL(
