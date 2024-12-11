@@ -18,10 +18,12 @@ canvas {
 *::after {
   box-sizing: border-box;
   margin: 0;
-  font-weight: normal;
-  font-family: monospace;
-  font-size: large;
+  font-weight: 300;
+  font-family: "Cascadia Code", "Cascadia Mono", "Lucida Console", "Consolas", monospace;
+  font-size: medium;
   user-select: none;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
   scrollbar-width: thin;
   scroll-behavior: smooth;
   scrollbar-color: var(--color-accent) var(--color-main);
