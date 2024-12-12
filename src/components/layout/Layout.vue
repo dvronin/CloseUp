@@ -20,5 +20,6 @@ main {
     height: 0%;
     display: flex;
     flex-direction: row;
+    position: relative;
 }
 </style>
