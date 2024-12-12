@@ -24,7 +24,7 @@ onMounted(() => {
         if (instance.viewer == null) {
             instance.viewer = new Viewer(canvas.value, { occtImportJsWasmPath: occtImportJsWasmPath });
             instance.viewer.appearance.enviroment.SetBackgroundColor(0x333333);
-            instance.viewer.showStats = true;
+            instance.viewer.showStats = false;
             instance.viewer.appearance.Render();
             console.log(instance);
         }
@@ -37,14 +37,12 @@ onMounted(() => {
 .viewer {
     flex: auto;
     display: flex;
-    position: relative;
     border: 1px solid var(--color-border);
 }
 
 canvas {
     flex: 1;
     width: 100%;
-    z-index: 1;
     min-width: 100px;
 }
 </style>
