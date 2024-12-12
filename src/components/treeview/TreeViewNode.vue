@@ -145,4 +145,9 @@ div {
     align-items: center;
     justify-content: center;
 }
+
+.actions>button,
+.actions>.button {
+    background: transparent;
+}
 </style>
