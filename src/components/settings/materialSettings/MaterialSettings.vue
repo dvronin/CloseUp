@@ -288,6 +288,7 @@ function CreateFromMaterial(type: string, material: Material) {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    background: transparent;
 }
 
 .material-name-edit {
