@@ -1,5 +1,5 @@
 <template>
-    <div class="expander" :style="setDirection()">
+    <div class="expander" :style="setDirection()" :open=open>
         <div>
             <input type="checkbox" v-model="open" name="expand-button" class="expand-button">
             <button @click="open = !open" :class="open == true ? `open` : ``">

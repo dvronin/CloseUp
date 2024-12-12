@@ -4,7 +4,7 @@
       <Header v-if="viewerReady" />
     </template>
     <template #main>
-      <aside class="element">
+      <aside class="element tree-view">
         <Sidebar direction="left">
           <Resizer direction="right">
             <TreeView v-if="model != null" :items="treeItems" />
@@ -13,7 +13,7 @@
         </Sidebar>
       </aside>
       <Viewer />
-      <aside class="element">
+      <aside class="element sidebar">
         <Sidebar direction="right">
           <Resizer direction="left">
             <component :is="sidebarItems[selectedSidebarItem]"></component>
@@ -149,5 +149,31 @@ aside {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+@media(max-width:800px) {
+  .tree-view {
+    position: absolute;
+    left: 0;
+    height: 100%;
+    max-width: 100%;
+    z-index: 2;
+    background: transparent;
+  }
+
+  .sidebar {
+    position: absolute;
+    right: 0;
+    height: 100%;
+    max-width: 100%;
+    background: transparent;
+  }
+
+  .expander[open=true] {
+    width: 100vw;
+    position: relative;
+    z-index: 10;
+    backdrop-filter: blur(5px);
+  }
 }
 </style>

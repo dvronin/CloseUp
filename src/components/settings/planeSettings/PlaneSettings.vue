@@ -361,6 +361,7 @@ option {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    background: transparent;
 }
 
 .plane-name-edit {
