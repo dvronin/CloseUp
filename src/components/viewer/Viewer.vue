@@ -1,6 +1,8 @@
 <template>
-    <div class="viewer">
+    <div class="viewer" @dragenter="onDragEnter($event)" @dragleave="onDragLeave($event)" @dragover="onDragOver($event)"
+        @drop="onDrop($event)">
         <canvas class="theme" id="canvas" ref="canvas" />
+        <div v-if="dragndrop" class="drag-and-drop"><img src="/folder.svg" alt="" draggable="false"></div>
     </div>
 </template>
 
@@ -13,6 +15,7 @@ const occtImportJsWasmPath: string = new URL("@/assets/occt-import-js.wasm", imp
 console.log(occtImportJsWasmPath);
 
 const canvas: Ref<HTMLCanvasElement | null> = ref(null);
+const dragndrop = ref(false);
 
 onMounted(() => {
     console.log(canvas);
@@ -31,6 +34,41 @@ onMounted(() => {
     }
 });
 
+function onDrop(event: Event) {
+    event.preventDefault();
+    console.log(event);
+    let file: File | null = null;
+    const dataTransfer = (event as any).dataTransfer;
+    if (dataTransfer.items) {
+        if (dataTransfer.items.length == 1) {
+            const item = dataTransfer.items[0] as DataTransferItem;
+            if (item.kind === "file") {
+                file = item.getAsFile();
+            }
+        };
+    } else {
+        const fileList = dataTransfer.files as FileList;
+        if (fileList.length == 1) {
+            file = fileList[0];
+        }
+    }
+    if (file != null) {
+        console.log(file.name);
+        const url = URL.createObjectURL(file);
+        instance.viewer?.LoadModelFile(file?.name, url);
+    }
+
+    dragndrop.value = false;
+}
+function onDragEnter(event: Event) {
+    dragndrop.value = true;
+}
+function onDragLeave(event: Event) {
+    dragndrop.value = false;
+}
+function onDragOver(event: Event) {
+    event.preventDefault();
+}
 </script>
 
 <style scoped>
@@ -38,11 +76,25 @@ onMounted(() => {
     flex: auto;
     display: flex;
     border: 1px solid var(--color-border);
+    position: relative;
 }
 
 canvas {
     flex: 1;
     width: 100%;
     min-width: 100px;
+}
+
+.drag-and-drop {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    display: flex;
+    margin: 0px 25%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    filter: opacity(0.25);
+    pointer-events: none;
 }
 </style>
