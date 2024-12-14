@@ -1,33 +1,52 @@
-# CadView
+<p align="center">
+  <img src="public/favicon.svg" alt="CloseUp" width="200"/>
+  <h1 align="center">CloseUp</h1>
+</p>
 
-This template should help get you started developing with Vue 3 in Vite.
+<p align="center">
+  CloseUp 3D model viewer for web and desktop
+</p>
 
-## Recommended IDE Setup
+## About
+The CloseUp viewer is based on [m3dv](https://github.com/123Wampir/m3dv) library. The user interface is created using [Vue](https://vuejs.org/). [Electron](https://www.electronjs.org/) was used for desktop builds.
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## Features
+- Supports GLTF, STEP, IGES, BREP formats
+- Powerful clipping planes
+- Two types of model explode strategies (simple and phased)
+- Material editor
+- Environment settings
+- Properties view
+- Keyboard shortcuts
+- UI theming
 
-## Type Support for `.vue` Imports in TS
+## Build & Run
+There's some scripts in [package.json](package.json) to help you with basic tasks.
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+First of all, use `npm i` to get all the necessary dependencies.
 
-## Customize configuration
+### Run
+1. To run in browser use `npm run dev`
+2. To run on desktop use `npm run start`
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+### Build
+1. To build for browser use `npm run build`. Output's to `dist` folder
+2. To build binaries for specified system use `npm run make-win`, `npm run make-linux` or `npm run make-darwin`
+3. To build binaries archive use `npm run make-win-zip`, `npm run make-linux-zip` or `npm run make-darwin-zip`
 
-## Project Setup
+## Bugs & Contributing
+If you have any problem with this viewer, have suggestions for improvements, or want to help with development, feel free to create new Issue or Pull Request.
 
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
+## Showcase
+App UI
+![App UI](/readme/readme1.png)
+Sections settings
+![Sections settings](/readme/readme2.jpg)
+Exploded view
+![Exploded view](/readme/readme3.jpg)
+Material editor
+![Material editor](/readme/readme4.jpg)
+Electron app
+![Electron app](/readme/readme5.jpg)
+You can view the help by clicking on the button in the upper right corner
+![help popup](/readme/readme6.jpg)
