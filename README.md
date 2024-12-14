@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="public/favicon.svg" alt="CloseUp" width="200"/>
+  <img src="public/favicon.gif" alt="CloseUp" width="200"/>
   <h1 align="center">CloseUp</h1>
 </p>
 
