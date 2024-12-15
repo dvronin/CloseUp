@@ -13,6 +13,8 @@
                 <div class="settings-item">
                     <div>HDR image</div>
                     <div>
+                        <SelectControl id="hdr" :multiple="false" :items="envMaps"
+                            @change="OnEnviromentChange($event)" />
                         <BtnInputFile :file-input="LoadHDRImage" accept=".hdr">
                             <img class="icon" src="/folder.svg" alt="Load HDR image">
                         </BtnInputFile>
@@ -94,6 +96,15 @@ import SelectControl, { type Option } from '@/components/shared/SelectControl.vu
 import ColorPicker from '@/components/shared/ColorPicker.vue';
 import BtnToggle from '@/components/shared/BtnToggle.vue';
 
+import env1 from '/hdr/hdr1.hdr?url'
+import env2 from '/hdr/hdr2.hdr?url'
+import env3 from '/hdr/hdr3.hdr?url'
+import env4 from '/hdr/hdr4.hdr?url'
+import env5 from '/hdr/hdr5.hdr?url'
+import env6 from '/hdr/hdr6.hdr?url'
+import env7 from '/hdr/hdr7.hdr?url'
+import env8 from '/hdr/hdr8.hdr?url'
+
 
 const enviroment: Ref<Enviroment | null> = ref(null);
 const backgroundColor: Ref<string> = ref("");
@@ -104,6 +115,17 @@ const toneMappingTypes = ref<Option[]>([
     { name: "ASEC", value: 3, selected: false },
     { name: "AgX", value: 4, selected: false },
     { name: "Neutral", value: 5, selected: false },
+]);
+
+const envMaps = ref<Option[]>([
+    { name: "Env 1", value: env1, selected: false },
+    { name: "Env 2", value: env2, selected: false },
+    { name: "Env 3", value: env3, selected: false },
+    { name: "Env 4", value: env4, selected: false },
+    { name: "Env 5", value: env5, selected: false },
+    { name: "Env 6", value: env6, selected: false },
+    { name: "Env 7", value: env7, selected: false },
+    { name: "Env 8", value: env8, selected: false },
 ]);
 
 const reflection = ref(false);
@@ -125,6 +147,14 @@ function ChangeBackgroundColor(event: Event) {
     const hex = (event.target as any).value;
     enviroment.value?.SetBackgroundColor(hex);
     instance.viewer?.appearance.Render();
+}
+
+function OnEnviromentChange(option: Option[]) {
+    const value = option[0].value;
+    const url = new URL(value, import.meta.url);
+    enviroment.value!.LoadBackgroundImage(url.href).then(e => {
+        instance.viewer?.appearance.Render();
+    });
 }
 
 function LoadHDRImage(event: Event) {
