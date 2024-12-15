@@ -32,10 +32,10 @@ canvas {
 body {
   padding: 0;
   margin: 0;
-  height: 100vh;
+  height: 100dvh;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 100dvh;
   color: var(--color-text);
   background: var(--color-main);
   text-rendering: optimizeLegibility;
