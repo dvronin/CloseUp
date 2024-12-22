@@ -4,7 +4,7 @@
 </p>
 
 <p align="center">
-  CloseUp 3D model viewer for web and desktop
+  CloseUp 3D model viewer for <a target="_blank" href="https://dvronin.github.io/CloseUp">web</a> and desktop
 </p>
 
 ## About
