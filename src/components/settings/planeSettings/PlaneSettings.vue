@@ -22,6 +22,7 @@
                         <div class="settings-item">
                             <div>Texture</div>
                             <div>
+                                <SelectControl :multiple="false" :items="textures" @change="OnTextureChange($event)" />
                                 <BtnInputFile :file-input="LoadSectionFillImage" accept=".jpg,.jpeg,.png">
                                     <img class="icon" src="/folder.svg" alt="Load image texture">
                                 </BtnInputFile>
@@ -139,6 +140,12 @@ import { SectionFillType } from 'm3dv/dist/Managers/Planes/PlaneManager';
 import { Object3D, Vector3 } from 'three';
 import { computed, onMounted, ref, type Ref } from 'vue';
 
+import texture1 from '/texture/texture1.jpg?url'
+import texture2 from '/texture/texture2.jpg?url'
+import texture3 from '/texture/texture3.jpg?url'
+import texture4 from '/texture/texture4.jpg?url'
+
+
 const selectedPlane: Ref<Plane | null> = ref(null);
 const selectedExcluded: Ref<Object3D[]> = ref([]);
 const excludeOptions = ref<Option[]>([]);
@@ -146,6 +153,13 @@ const selected = ref<readonly Object3D[]>([]);
 const planeOptions = ref<Option[]>([]);
 const editName = ref(false);
 const planeName = ref("");
+
+const textures = ref<Option[]>([
+    { name: "Texture 1", value: texture1, selected: false },
+    { name: "Texture 2", value: texture2, selected: false },
+    { name: "Texture 3", value: texture3, selected: false },
+    { name: "Texture 4", value: texture4, selected: false },
+]);
 
 const x = ref(0);
 const y = ref(0);
@@ -259,6 +273,14 @@ function Include() {
     instance.viewer?.selectionManager.HideSelected();
     instance.viewer?.selectionManager.Select();
     instance.viewer?.appearance.Render();
+}
+
+function OnTextureChange(option: Option[]) {
+    const value = option[0].value;
+    const url = new URL(value, import.meta.url);
+    planeManager.value!.LoadSectionFillImage(url.href).then(e => {
+        instance.viewer?.appearance.Render();
+    });
 }
 
 function LoadSectionFillImage(event: Event) {
