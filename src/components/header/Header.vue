@@ -9,10 +9,10 @@
                 <a target="_blank" @click="OpenHelp()" title="help">
                     <img class="icon" src="/help.svg" alt="github">
                 </a>
-                <a target="_blank" href="https://github.com/123Wampir/CloseUp" title="CloseUp git repo">
+                <a target="_blank" href="https://github.com/dvronin/CloseUp" title="CloseUp git repo">
                     <img class="icon" src="/favicon.svg" alt="github">
                 </a>
-                <a target="_blank" href="https://github.com/123Wampir" title="git profile">
+                <a target="_blank" href="https://github.com/dvronin" title="git profile">
                     <img class="icon" src="/github-mark.svg" alt="github">
                 </a>
                 <a target="_blank" href="https://vk.com/dv.ronin" title="vk profile">
