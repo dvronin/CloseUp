@@ -32,14 +32,14 @@
                             <h2>About</h2>
                         </summary>
                         <div class="content">CloseUp 3D viewer powered by <a target="_blank"
-                                href="https://github.com/123Wampir/m3dv">m3dv</a> library.<br>
+                                href="https://github.com/dvronin/m3dv">m3dv</a> library.<br>
                             It provides basic viewer experience and implements some features like cutting planes and
                             exploded views.<br>
                             CloseUp also have powerful material editor which allows to change appearance of your
                             model.<br>
                             There's still a lot of thing i would like to implement in this project (Ex. viewcube,
                             texture manager, recreate my old animation <a target="_blank"
-                                href="https://github.com/123Wampir/CADAnimation">app</a>, ray-tracing and more and
+                                href="https://github.com/dvronin/CADAnimation">app</a>, ray-tracing and more and
                             more).<br>
                             Stay tuned <span class="theme">🌵🌵🌵</span><br>
                             <img style="margin: 0 25%;" class="theme" src="/favicon.svg" alt="">

@@ -8,7 +8,7 @@
 </p>
 
 ## About
-The CloseUp viewer is based on [m3dv](https://github.com/123Wampir/m3dv) library. The user interface is created using [Vue](https://vuejs.org/). [Electron](https://www.electronjs.org/) was used for desktop builds.
+The CloseUp viewer is based on [m3dv](https://github.com/dvronin/m3dv) library. The user interface is created using [Vue](https://vuejs.org/). [Electron](https://www.electronjs.org/) was used for desktop builds.
 
 ## Features
 - Supports GLTF, STEP, IGES, BREP formats
